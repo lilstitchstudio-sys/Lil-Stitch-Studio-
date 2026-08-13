@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lil Stitch Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #8C9A72;
+    --sage-dark: #66744C;
+    --sage-light: #B7C09F;
+    --cream: #FBF4E7;
+    --cream-card: #FFFCF6;
+    --rust: #C1774B;
+    --rust-dark: #9E5E38;
+    --pink: #E4A9A1;
+    --pink-dark: #CE8880;
+    --text-dark: #453A2C;
+    --text-mid: #6B5D4B;
+    --white: #FFFFFF;
+    --border: #E9DFC9;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family:'Quicksand', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width:100%; display:block; }
+  h1,h2,h3,h4 { font-family:'Baloo 2', sans-serif; color: var(--text-dark); line-height:1.2; }
+  a { color:inherit; }
+  ul { list-style:none; }
+  button { font-family:inherit; }
+
+  .container { max-width:1240px; margin:0 auto; padding:0 24px; }
+  .section { padding:72px 0; }
+  @media (max-width:700px){ .section{ padding:48px 0; } }
+
+  .section-header { text-align:center; margin-bottom:44px; }
+  .section-header h2 { font-size:32px; }
+  .stitch-divider {
+    width:84px; height:3px; margin:14px auto 0; border-radius:2px;
+    background-image: repeating-linear-gradient(90deg, var(--rust) 0 8px, transparent 8px 16px);
+  }
+  .stitch-divider.left { margin:14px 0 0; }
+
+  [contenteditable="true"] { outline:none; border-radius:6px; transition:background .15s; }
+  [contenteditable="true"]:hover { background:rgba(140,154,114,0.12); }
+  [contenteditable="true"]:focus { background:rgba(140,154,114,0.16); box-shadow:0 0 0 2px rgba(140,154,114,0.4); }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, .photo-upload:focus-visible {
+    outline:3px solid var(--rust); outline-offset:2px;
+  }
+
+  /* Editor banner */
+  .editor-banner {
+    background: var(--sage-dark); color:#fff;
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    padding:10px 20px; text-align:center; font-size:13px;
+  }
+  .editor-banner p { max-width:900px; }
+  .editor-banner strong { font-weight:700; }
+  .editor-banner-close {
+    background:none; border:1px solid rgba(255,255,255,0.5); color:#fff;
+    width:24px; height:24px; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .editor-banner-close svg { width:12px; height:12px; }
+
+  /* Announcement */
+  .announcement-bar { background:var(--sage); color:#fff; text-align:center; padding:10px 20px; font-size:13px; font-weight:600; letter-spacing:.02em; }
+
+  /* Header */
+  .site-header { position:sticky; top:0; z-index:50; background:var(--cream); border-bottom:1px solid var(--border); }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 0; position:relative; }
+  .logo { display:flex; flex-direction:column; line-height:1; flex-shrink:0; }
+  .logo-script { font-family:'Caveat', cursive; font-weight:700; font-size:30px; color:var(--sage-dark); }
+  .logo-sub { font-size:11px; font-weight:700; letter-spacing:.2em; color:var(--rust-dark); margin-top:2px; }
+  .main-nav { display:flex; gap:26px; flex:1; justify-content:center; }
+  .main-nav a { text-decoration:none; font-weight:600; font-size:14px; color:var(--text-dark); white-space:nowrap; }
+  .main-nav a:hover { color:var(--rust); }
+  .header-icons { display:flex; align-items:center; gap:16px; flex-shrink:0; }
+  .icon-btn { background:none; border:none; cursor:pointer; color:var(--text-dark); position:relative; padding:4px; display:flex; }
+  .icon-btn svg { width:21px; height:21px; }
+  .cart-badge {
+    position:absolute; top:-4px; right:-4px; background:var(--rust); color:#fff;
+    font-size:10px; font-weight:700; width:16px; height:16px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mobile-menu-btn { display:none; background:none; border:none; cursor:pointer; color:var(--text-dark); }
+  .mobile-menu-btn svg { width:24px; height:24px; }
+
+  @media (max-width:860px) {
+    .mobile-menu-btn { display:block; }
+    .main-nav {
+      display:none; position:absolute; top:100%; left:0; right:0;
+      background:var(--cream-card); flex-direction:column; gap:2px;
+      padding:8px 24px 16px; box-shadow:0 10px 20px rgba(0,0,0,0.08); border-top:1px solid var(--border);
+    }
+    .main-nav.nav-open { display:flex; }
+    .main-nav a { padding:12px 0; border-bottom:1px dashed var(--border); }
+  }
+
+  /* Buttons */
+  .btn {
+    display:inline-flex; align-items:center; gap:8px; border:none; cursor:pointer;
+    border-radius:50px; font-weight:700; text-decoration:none; transition:transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,0.14); }
+  .btn svg { width:16px; height:16px; }
+  .btn-primary { background:var(--sage); color:#fff; padding:15px 34px; font-size:15px; }
+  .btn-secondary { background:var(--pink); color:#fff; padding:10px 22px; font-size:12.5px; }
+
+  /* Photo upload component */
+  .photo-upload {
+    position:relative; background-color:#F1E9D6; background-size:cover; background-position:center;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden;
+    border:2px dashed var(--sage-light); border-radius:20px; width:100%;
+  }
+  .photo-upload:hover { border-color:var(--rust); }
+  .photo-upload.has-photo { border-color:transparent; }
+  .photo-upload .photo-placeholder { display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--sage-dark); padding:16px; text-align:center; pointer-events:none; }
+  .photo-upload.has-photo .photo-placeholder { display:none; }
+  .photo-icon { width:30px; height:30px; opacity:.7; }
+  .photo-upload span { font-size:12px; font-weight:600; }
+  .photo-input { display:none; }
+
+  /* Hero */
+  .hero-inner { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; padding:56px 0 72px; }
+  .hero-text h1 { font-size:52px; margin-bottom:18px; }
+  .hero-text .accent { color:var(--rust); }
+  .hero-text p { font-size:16px; color:var(--text-mid); max-width:420px; margin-bottom:28px; }
+  .hero-image-wrap { position:relative; }
+  .hero-photo { aspect-ratio:4/5; }
+  .hero-badge {
+    position:absolute; bottom:-22px; right:-14px; width:128px; height:128px; border-radius:50%;
+    background:var(--pink); color:#fff; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:16px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12.5px;
+    line-height:1.3; box-shadow:0 10px 22px rgba(0,0,0,0.18);
+  }
+  @keyframes fadeInUp { from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+  .hero-text > * { animation:fadeInUp .7s ease-out both; }
+  .hero-text > *:nth-child(2){ animation-delay:.1s; }
+  .hero-text > *:nth-child(3){ animation-delay:.2s; }
+
+  @media (max-width:860px) {
+    .hero-inner { grid-template-columns:1fr; gap:36px; padding:36px 0 56px; }
+    .hero-text h1 { font-size:36px; }
+    .hero-text p { max-width:none; }
+    .hero-badge { width:96px; height:96px; font-size:10.5px; padding:10px; bottom:-14px; right:4px; }
+  }
+
+  /* Feature strip */
+  .feature-strip { padding:44px 0; border-bottom:1px solid var(--border); }
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:28px; text-align:center; }
+  .feature-item svg { width:26px; height:26px; color:var(--rust); margin-bottom:10px; }
+  .feature-item h4 { font-size:15px; margin-bottom:4px; }
+  .feature-item p { font-size:12.5px; color:var(--text-mid); }
+
+  /* Collections */
+  .collections-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:26px; }
+  .collection-card { text-align:center; }
+  .collection-photo { aspect-ratio:1/1; margin-bottom:14px; }
+  .collection-card h3 { font-size:15px; margin-bottom:10px; }
+
+  /* Why us */
+  .why-us { background:var(--cream-card); }
+  .why-us-inner { display:grid; grid-template-columns:1fr 1.15fr; gap:60px; align-items:center; }
+  .why-us-image-wrap { position:relative; }
+  .workspace-photo { aspect-ratio:4/5; }
+  .why-us-badge {
+    position:absolute; bottom:-20px; left:-16px; width:120px; height:120px; border-radius:50%;
+    background:var(--rust); color:#fff; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:14px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px;
+    line-height:1.25; box-shadow:0 10px 22px rgba(0,0,0,0.18);
+  }
+  .why-us-content h2 { font-size:30px; }
+  .why-us-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px 22px; margin-top:26px; }
+  .why-us-item svg { width:24px; height:24px; color:var(--pink-dark); margin-bottom:8px; }
+  .why-us-item h4 { font-size:14.5px; margin-bottom:4px; }
+  .why-us-item p { font-size:12.5px; color:var(--text-mid); }
+
+  @media (max-width:860px) {
+    .why-us-inner { grid-template-columns:1fr; gap:52px 0; }
+    .why-us-image-wrap { max-width:340px; margin:0 auto; }
+  }
+
+  /* Social proof */
+  .social-proof { background:var(--sage); color:var(--cream); }
+  .social-proof-inner { display:grid; grid-template-columns:1fr 1fr 1.1fr; gap:44px; align-items:start; }
+  .social-proof h3 { color:#fff; font-size:20px; margin-bottom:16px; }
+  .testimonial-card { background:var(--cream-card); color:var(--text-dark); border-radius:18px; padding:22px; max-width:320px; box-shadow:0 10px 24px rgba(0,0,0,0.14); }
+  .stars { color:var(--rust); font-size:15px; letter-spacing:2px; margin-bottom:8px; }
+  .testimonial-card p { font-size:13.5px; margin-bottom:10px; }
+  .testimonial-card span { font-size:12.5px; font-weight:700; color:var(--sage-dark); }
+  .insta-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .insta-photo { aspect-ratio:1/1; border-radius:14px; border-color:rgba(255,255,255,0.5); }
+  .insta-handle { margin-top:14px; font-weight:700; font-size:13.5px; text-align:center; }
+  .newsletter-card { background:var(--cream-card); color:var(--text-dark); border-radius:18px; padding:28px 24px; box-shadow:0 10px 24px rgba(0,0,0,0.14); }
+  .newsletter-card h3 { color:var(--text-dark); font-size:19px; margin-bottom:8px; }
+  .newsletter-card p { font-size:13px; color:var(--text-mid); margin-bottom:16px; }
+  .newsletter-form { display:flex; border:1px solid var(--border); border-radius:50px; overflow:hidden; }
+  .newsletter-form input { flex:1; border:none; padding:12px 16px; font-family:'Quicksand',sans-serif; font-size:13.5px; outline:none; min-width:0; }
+  .newsletter-form button { background:var(--rust); color:#fff; border:none; padding:0 18px; cursor:pointer; display:flex; align-items:center; }
+  .newsletter-form button svg { width:17px; height:17px; }
+  .newsletter-form button:hover { background:var(--rust-dark); }
+
+  @media (max-width:860px) {
+    .social-proof-inner { grid-template-columns:1fr; gap:40px; }
+    .testimonial-card { max-width:none; }
+  }
+
+  /* Trust footer */
+  .trust-footer { padding:40px 0 16px; }
+  .trust-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:24px; }
+  .trust-item { display:flex; align-items:center; gap:12px; }
+  .trust-item svg { width:24px; height:24px; color:var(--sage-dark); flex-shrink:0; }
+  .trust-item strong { display:block; font-size:13.5px; }
+  .trust-item span { font-size:12px; color:var(--text-mid); }
+  .copyright { text-align:center; font-size:12px; color:var(--text-mid); padding:28px 24px 8px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="editor-banner" id="editorBanner">
+  <p><strong>This is your editable template.</strong> Tap any text to edit it, tap a photo area to upload your own image.</p>
+  <button class="editor-banner-close" onclick="document.getElementById('editorBanner').remove()" aria-label="Dismiss this message">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
+<div class="announcement-bar">
+  <p contenteditable="true">✨ Free Shipping on Orders Over $100 ✨</p>
+</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <span class="logo-script" contenteditable="true">Lil Stitch</span>
+      <span class="logo-sub" contenteditable="true">STUDIO</span>
+    </div>
+
+    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#" contenteditable="true">Home</a>
+      <a href="#" contenteditable="true">Shop</a>
+      <a href="#" contenteditable="true">Custom Orders</a>
+      <a href="#" contenteditable="true">About Us</a>
+      <a href="#" contenteditable="true">FAQ</a>
+      <a href="#" contenteditable="true">Contact</a>
+    </nav>
+
+    <div class="header-icons">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="container hero-inner">
+    <div class="hero-text">
+      <h1 contenteditable="true">Cute. Cozy.<br>Made With <span class="accent">Love</span>.</h1>
+      <p contenteditable="true">Thoughtfully handmade pieces for your little ones and the people you love.</p>
+      <a href="#" class="btn btn-primary" contenteditable="true">Shop Now <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg></a>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="photo-upload hero-photo" role="button" aria-label="Upload hero photo">
+        <input type="file" accept="image/*" class="photo-input">
+        <div class="photo-placeholder">
+          <svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span>Add Hero Photo</span>
+        </div>
+      </div>
+      <div class="hero-badge"><span contenteditable="true">Handmade with care, just for you</span></div>
+    </div>
+  </section>
+
+  <!-- FEATURE STRIP -->
+  <section class="feature-strip">
+    <div class="container feature-grid">
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        <h4 contenteditable="true">Made with Love</h4>
+        <p contenteditable="true">Handmade with care in every stitch</p>
+      </div>
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 6-15 15-15 0 9-6 15-15 15z"/><path d="M5 21c3-3 6-6 15-15"/></svg>
+        <h4 contenteditable="true">Premium Quality</h4>
+        <p contenteditable="true">Soft, durable & made to last</p>
+      </div>
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+        <h4 contenteditable="true">Custom Made</h4>
+        <p contenteditable="true">Personalized just the way you want it</p>
+      </div>
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+        <h4 contenteditable="true">Fast Shipping</h4>
+        <p contenteditable="true">Quick & reliable shipping to you</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTIONS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 contenteditable="true">Featured Collections</h2>
+        <div class="stitch-divider"></div>
+      </div>
+      <div class="collections-grid">
+        <div class="collection-card">
+          <div class="photo-upload collection-photo" role="button" aria-label="Upload photo for Baby & Kids">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Photo</span></div>
+          </div>
+          <h3 contenteditable="true">Baby & Kids</h3>
+          <a href="#" class="btn btn-secondary" contenteditable="true">Shop Now</a>
+        </div>
+        <div class="collection-card">
+          <div class="photo-upload collection-photo" role="button" aria-label="Upload photo for Mama Collection">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Photo</span></div>
+          </div>
+          <h3 contenteditable="true">Mama Collection</h3>
+          <a href="#" class="btn btn-secondary" contenteditable="true">Shop Now</a>
+        </div>
+        <div class="collection-card">
+          <div class="photo-upload collection-photo" role="button" aria-label="Upload photo for Local Love">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Photo</span></div>
+          </div>
+          <h3 contenteditable="true">Local Love</h3>
+          <a href="#" class="btn btn-secondary" contenteditable="true">Shop Now</a>
+        </div>
+        <div class="collection-card">
+          <div class="photo-upload collection-photo" role="button" aria-label="Upload photo for Seasonal">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Photo</span></div>
+          </div>
+          <h3 contenteditable="true">Seasonal</h3>
+          <a href="#" class="btn btn-secondary" contenteditable="true">Shop Now</a>
+        </div>
+        <div class="collection-card">
+          <div class="photo-upload collection-photo" role="button" aria-label="Upload photo for Custom Orders">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Photo</span></div>
+          </div>
+          <h3 contenteditable="true">Custom Orders</h3>
+          <a href="#" class="btn btn-secondary" contenteditable="true">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-us section">
+    <div class="container why-us-inner">
+      <div class="why-us-image-wrap">
+        <div class="photo-upload workspace-photo" role="button" aria-label="Upload workspace photo">
+          <input type="file" accept="image/*" class="photo-input">
+          <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add Workspace Photo</span></div>
+        </div>
+        <div class="why-us-badge"><span contenteditable="true">Thank you for supporting my small business</span></div>
+      </div>
+      <div class="why-us-content">
+        <h2 contenteditable="true">Why You'll Love It Here</h2>
+        <div class="stitch-divider left"></div>
+        <div class="why-us-grid">
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+            <h4 contenteditable="true">Small Business</h4>
+            <p contenteditable="true">Your support means the world to me!</p>
+          </div>
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a3 3 0 0 1 0 6 3 3 0 0 1 0-6zM12 16a3 3 0 0 1 0 6 3 3 0 0 1 0-6zM2 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0zM16 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0z"/></svg>
+            <h4 contenteditable="true">Unique Designs</h4>
+            <p contenteditable="true">Original, trendy & made with creativity</p>
+          </div>
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="7" ry="3"/><ellipse cx="12" cy="18" rx="7" ry="3"/><line x1="5" y1="6" x2="5" y2="18"/><line x1="19" y1="6" x2="19" y2="18"/></svg>
+            <h4 contenteditable="true">Quality Crafted</h4>
+            <p contenteditable="true">Every piece is sewn with attention to detail</p>
+          </div>
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            <h4 contenteditable="true">Made to Make You Smile</h4>
+            <p contenteditable="true">Cute pieces for life's little moments</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="social-proof section">
+    <div class="container social-proof-inner">
+      <div class="testimonial-col">
+        <h3 contenteditable="true">Kind Words</h3>
+        <div class="stitch-divider left" style="margin-bottom:16px;"></div>
+        <div class="testimonial-card">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p contenteditable="true">"The quality is amazing and the details are just perfect! We love everything we've ordered!"</p>
+          <span contenteditable="true">— Jessica M.</span>
+        </div>
+      </div>
+
+      <div class="instagram-col">
+        <h3 contenteditable="true">Follow Along</h3>
+        <div class="stitch-divider left" style="margin-bottom:16px;"></div>
+        <div class="insta-grid">
+          <div class="photo-upload insta-photo" role="button" aria-label="Upload Instagram photo 1">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          </div>
+          <div class="photo-upload insta-photo" role="button" aria-label="Upload Instagram photo 2">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          </div>
+          <div class="photo-upload insta-photo" role="button" aria-label="Upload Instagram photo 3">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          </div>
+          <div class="photo-upload insta-photo" role="button" aria-label="Upload Instagram photo 4">
+            <input type="file" accept="image/*" class="photo-input">
+            <div class="photo-placeholder"><svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          </div>
+        </div>
+        <p class="insta-handle" contenteditable="true">@lilstitch.studio</p>
+      </div>
+
+      <div class="newsletter-col">
+        <div class="newsletter-card">
+          <h3 contenteditable="true">Let's Stay Connected!</h3>
+          <p contenteditable="true">Be the first to know about new drops, sales & more.</p>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="Enter your email" aria-label="Email address">
+            <button type="submit" aria-label="Subscribe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- TRUST FOOTER -->
+<footer class="trust-footer">
+  <div class="container trust-grid">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+      <div><strong contenteditable="true">Secure Checkout</strong><span contenteditable="true">Shop with confidence</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+      <div><strong contenteditable="true">Hassle-Free Returns</strong><span contenteditable="true">Easy returns within 14 days</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <div><strong contenteditable="true">Made with Love</strong><span contenteditable="true">Thank you for supporting handmade</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 6-15 15-15 0 9-6 15-15 15z"/><path d="M5 21c3-3 6-6 15-15"/></svg>
+      <div><strong contenteditable="true">Premium Quality</strong><span contenteditable="true">You & your little ones deserve the best</span></div>
+    </div>
+  </div>
+  <p class="copyright" contenteditable="true">© 2026 Lil Stitch Studio · Made with 🤍 for little ones everywhere</p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mainNav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('nav-open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Photo upload zones
+  document.querySelectorAll('.photo-upload').forEach((zone) => {
+    const input = zone.querySelector('.photo-input');
+    zone.setAttribute('tabindex', '0');
+    zone.addEventListener('click', () => input.click());
+    zone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
+    });
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        zone.style.backgroundImage = `url(${ev.target.result})`;
+        zone.classList.add('has-photo');
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+</script>
+</body>
+</html>
