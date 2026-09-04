@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "name": "Lil Stitch Studio Branding",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "header_logo",
+        "label": "Stork logo"
+      }
+    ]
+  }
+]
