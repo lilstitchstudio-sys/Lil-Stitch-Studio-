@@ -67,6 +67,7 @@
       ],
       "settings": {
         "announcement_text": "✨ Free Shipping on Orders Over $150 ✨",
+        "header_logo": "shopify://shop_images/Logo2.png",
         "logo_main": "Lil Stitch",
         "logo_sub": "STUDIO",
         "custom_orders_url": "",
