@@ -1,1 +1,928 @@
+/* =========================================
+   LIL STITCH STUDIO
+   Shopify Theme Styles
+   ========================================= */
 
+:root {
+  --sage: #8c9a72;
+  --sage-dark: #66744c;
+  --sage-light: #b7c09f;
+
+  --cream: #fbf4e7;
+  --cream-card: #fffcf6;
+
+  --rust: #c1774b;
+  --rust-dark: #9e5e38;
+
+  --pink: #e4a9a1;
+  --pink-dark: #ce8880;
+
+  --text-dark: #453a2c;
+  --text-mid: #6b5d4b;
+
+  --white: #ffffff;
+  --border: #e9dfc9;
+
+  --page-width: 1240px;
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--text-dark);
+  font-family: "Quicksand", sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  font-family: "Baloo 2", sans-serif;
+  color: var(--text-dark);
+  line-height: 1.15;
+}
+
+/* =========================================
+   GENERAL LAYOUT
+   ========================================= */
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.section-header h2 {
+  margin-bottom: 0;
+  font-size: clamp(28px, 4vw, 36px);
+}
+
+.stitch-divider {
+  width: 86px;
+  height: 4px;
+  margin: 14px auto 0;
+  border-radius: 99px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--rust) 0,
+    var(--rust) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.stitch-divider.left {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* =========================================
+   ANNOUNCEMENT BAR
+   ========================================= */
+
+.announcement-bar {
+  padding: 10px 20px;
+  background: var(--sage);
+  color: var(--white);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.announcement-bar p {
+  margin: 0;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo-script {
+  font-family: "Caveat", cursive;
+  font-size: 31px;
+  font-weight: 700;
+  color: var(--sage-dark);
+}
+
+.logo-sub {
+  margin-top: 4px;
+  color: var(--rust-dark);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+
+.main-nav {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+}
+
+.main-nav a {
+  color: var(--text-dark);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--rust);
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--text-dark);
+  text-decoration: none;
+}
+
+.icon-btn svg {
+  width: 21px;
+  height: 21px;
+}
+
+.icon-btn:hover {
+  color: var(--rust);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -3px;
+  right: -4px;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--rust);
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.mobile-menu-btn {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-dark);
+}
+
+.mobile-menu-btn svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(69, 58, 44, 0.14);
+}
+
+.btn-primary {
+  padding: 14px 32px;
+  background: var(--sage);
+  color: var(--white);
+  font-size: 15px;
+}
+
+.btn-primary:hover {
+  background: var(--sage-dark);
+}
+
+.btn-secondary {
+  padding: 10px 22px;
+  background: var(--pink);
+  color: var(--white);
+  font-size: 13px;
+}
+
+.btn-secondary:hover {
+  background: var(--pink-dark);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================================
+   IMAGE PLACEHOLDERS
+   ========================================= */
+
+.shopify-image,
+.photo-upload {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #f1e9d6;
+}
+
+.shopify-image img,
+.photo-upload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder,
+.photo-placeholder {
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  color: var(--sage-dark);
+  text-align: center;
+  border: 2px dashed var(--sage-light);
+  border-radius: 20px;
+}
+
+.image-placeholder svg,
+.photo-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.image-placeholder span,
+.photo-placeholder span {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding-top: 58px;
+  padding-bottom: 72px;
+}
+
+.hero-text h1 {
+  margin-bottom: 18px;
+  font-size: clamp(40px, 5vw, 56px);
+}
+
+.hero-text .accent {
+  color: var(--rust);
+}
+
+.hero-text p {
+  max-width: 450px;
+  margin: 0 0 28px;
+  color: var(--text-mid);
+  font-size: 16px;
+}
+
+.hero-image-wrap {
+  position: relative;
+}
+
+.hero-photo {
+  aspect-ratio: 4 / 5;
+}
+
+.hero-badge {
+  position: absolute;
+  right: -14px;
+  bottom: -22px;
+  display: flex;
+  width: 128px;
+  height: 128px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: 0 10px 24px rgba(69, 58, 44, 0.2);
+  text-align: center;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* =========================================
+   FEATURES
+   ========================================= */
+
+.feature-strip {
+  padding-top: 44px;
+  padding-bottom: 44px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.feature-item {
+  text-align: center;
+}
+
+.feature-item svg {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 10px;
+  color: var(--rust);
+}
+
+.feature-item h4 {
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.feature-item p {
+  margin: 0;
+  color: var(--text-mid);
+  font-size: 12.5px;
+}
+
+/* =========================================
+   COLLECTIONS
+   ========================================= */
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 26px;
+}
+
+.collection-card {
+  text-align: center;
+}
+
+.collection-photo {
+  aspect-ratio: 1 / 1;
+  margin-bottom: 14px;
+}
+
+.collection-card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.collection-card a {
+  margin-top: 2px;
+}
+
+/* =========================================
+   WHY SHOP LIL STITCH
+   ========================================= */
+
+.why-us {
+  background: var(--cream-card);
+}
+
+.why-us-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.why-us-image-wrap {
+  position: relative;
+}
+
+.workspace-photo {
+  aspect-ratio: 4 / 5;
+}
+
+.why-us-badge {
+  position: absolute;
+  bottom: -18px;
+  left: -16px;
+  display: flex;
+  width: 120px;
+  height: 120px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: 50%;
+  background: var(--rust);
+  color: var(--white);
+  box-shadow: 0 10px 24px rgba(69, 58, 44, 0.2);
+  text-align: center;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.why-us-content h2 {
+  margin-bottom: 0;
+  font-size: clamp(28px, 4vw, 34px);
+}
+
+.why-us-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 24px;
+  margin-top: 28px;
+}
+
+.why-us-item svg {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 8px;
+  color: var(--pink-dark);
+}
+
+.why-us-item h4 {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.why-us-item p {
+  margin: 0;
+  color: var(--text-mid);
+  font-size: 12.5px;
+}
+
+/* =========================================
+   TESTIMONIAL / INSTAGRAM / NEWSLETTER
+   ========================================= */
+
+.social-proof {
+  background: var(--sage);
+  color: var(--cream);
+}
+
+.social-proof-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+.social-proof h3 {
+  margin-bottom: 16px;
+  color: var(--white);
+  font-size: 21px;
+}
+
+.testimonial-card {
+  max-width: 330px;
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--cream-card);
+  color: var(--text-dark);
+  box-shadow: 0 10px 26px rgba(69, 58, 44, 0.16);
+}
+
+.stars {
+  margin-bottom: 8px;
+  color: var(--rust);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.testimonial-card p {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+}
+
+.testimonial-card span {
+  color: var(--sage-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.insta-photo {
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+}
+
+.insta-handle {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.newsletter-card {
+  padding: 28px 24px;
+  border-radius: 18px;
+  background: var(--cream-card);
+  color: var(--text-dark);
+  box-shadow: 0 10px 26px rgba(69, 58, 44, 0.16);
+}
+
+.newsletter-card h3 {
+  margin-bottom: 8px;
+  color: var(--text-dark);
+  font-size: 20px;
+}
+
+.newsletter-card p {
+  margin: 0 0 16px;
+  color: var(--text-mid);
+  font-size: 13px;
+}
+
+.newsletter-form {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+}
+
+.newsletter-form input {
+  min-width: 0;
+  flex: 1;
+  padding: 12px 16px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-dark);
+}
+
+.newsletter-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 0;
+  background: var(--rust);
+  color: var(--white);
+}
+
+.newsletter-form button:hover {
+  background: var(--rust-dark);
+}
+
+.newsletter-form button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================================
+   TRUST FOOTER
+   ========================================= */
+
+.trust-footer {
+  padding-top: 42px;
+  padding-bottom: 16px;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trust-item svg {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: var(--sage-dark);
+}
+
+.trust-item strong {
+  display: block;
+  font-size: 13.5px;
+}
+
+.trust-item span {
+  display: block;
+  color: var(--text-mid);
+  font-size: 12px;
+}
+
+.copyright {
+  padding: 28px 24px 10px;
+  color: var(--text-mid);
+  text-align: center;
+  font-size: 12px;
+}
+
+/* =========================================
+   SHOPIFY MESSAGES
+   ========================================= */
+
+.form-success {
+  margin-top: 12px;
+  color: var(--sage-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.form-error {
+  margin-top: 12px;
+  color: var(--rust-dark);
+  font-size: 13px;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media screen and (max-width: 1000px) {
+  .collections-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .feature-grid,
+  .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 24px 18px;
+    background: var(--cream-card);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 12px 20px rgba(69, 58, 44, 0.08);
+  }
+
+  .main-nav.nav-open {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding-top: 38px;
+    padding-bottom: 58px;
+  }
+
+  .hero-text p {
+    max-width: none;
+  }
+
+  .hero-image-wrap {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    right: 4px;
+    bottom: -14px;
+    width: 100px;
+    height: 100px;
+    padding: 11px;
+    font-size: 10.5px;
+  }
+
+  .why-us-inner {
+    grid-template-columns: 1fr;
+    gap: 54px;
+  }
+
+  .why-us-image-wrap {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+
+  .social-proof-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .testimonial-card {
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .header-inner {
+    gap: 12px;
+  }
+
+  .logo-script {
+    font-size: 26px;
+  }
+
+  .header-icons {
+    gap: 8px;
+  }
+
+  .collections-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 14px;
+  }
+
+  .feature-grid,
+  .trust-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 18px;
+  }
+
+  .why-us-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .hero-text h1 {
+    font-size: 38px;
+  }
+
+  .collections-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--rust);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
