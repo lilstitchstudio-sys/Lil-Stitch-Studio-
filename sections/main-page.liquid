@@ -1,4 +1,908 @@
-<div>
-  <h1>Lil Stitch Studio</h1>
-  <p>Your Shopify theme is connected and working.</p>
+<div class="announcement-bar">
+  <p>{{ section.settings.announcement_text }}</p>
 </div>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <a href="{{ routes.root_url }}" class="logo">
+      <span class="logo-script">{{ section.settings.logo_main }}</span>
+      <span class="logo-sub">{{ section.settings.logo_sub }}</span>
+    </a>
+
+    <button
+      class="mobile-menu-btn"
+      id="menuBtn-{{ section.id }}"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      type="button"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <nav class="main-nav" id="mainNav-{{ section.id }}">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop</a>
+
+      {% if section.settings.custom_orders_url != blank %}
+        <a href="{{ section.settings.custom_orders_url }}">Custom Orders</a>
+      {% endif %}
+
+      {% if section.settings.about_url != blank %}
+        <a href="{{ section.settings.about_url }}">About Us</a>
+      {% endif %}
+
+      {% if section.settings.faq_url != blank %}
+        <a href="{{ section.settings.faq_url }}">FAQ</a>
+      {% endif %}
+
+      {% if section.settings.contact_url != blank %}
+        <a href="{{ section.settings.contact_url }}">Contact</a>
+      {% endif %}
+    </nav>
+
+    <div class="header-icons">
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </a>
+
+      {% if shop.customer_accounts_enabled %}
+        <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8h12l-1 12H7L6 8z"/>
+          <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+        </svg>
+        <span class="cart-badge">{{ cart.item_count }}</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+  <section class="container hero-inner">
+    <div class="hero-text">
+      <h1>
+        {{ section.settings.hero_heading }}
+        {% if section.settings.hero_accent != blank %}
+          <span class="accent">{{ section.settings.hero_accent }}</span>
+        {% endif %}
+      </h1>
+
+      <p>{{ section.settings.hero_text }}</p>
+
+      <a
+        href="{% if section.settings.hero_button_url != blank %}{{ section.settings.hero_button_url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}"
+        class="btn btn-primary"
+      >
+        {{ section.settings.hero_button_text }}
+
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-image-wrap">
+      <div class="shopify-image hero-photo">
+        {% if section.settings.hero_image != blank %}
+          {{
+            section.settings.hero_image
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'eager',
+              widths: '400,600,800,1000,1200',
+              alt: section.settings.hero_image.alt
+          }}
+        {% else %}
+          <div class="image-placeholder">
+            <svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/>
+              <circle cx="12" cy="13" r="3.5"/>
+            </svg>
+            <span>Add Hero Photo in Edit Theme</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="hero-badge">
+        <span>{{ section.settings.hero_badge }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-strip">
+    <div class="container feature-grid">
+
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>
+        </svg>
+        <h4>{{ section.settings.feature_1_title }}</h4>
+        <p>{{ section.settings.feature_1_text }}</p>
+      </div>
+
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 21c0-9 6-15 15-15 0 9-6 15-15 15z"/>
+          <path d="M5 21c3-3 6-6 15-15"/>
+        </svg>
+        <h4>{{ section.settings.feature_2_title }}</h4>
+        <p>{{ section.settings.feature_2_text }}</p>
+      </div>
+
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/>
+        </svg>
+        <h4>{{ section.settings.feature_3_title }}</h4>
+        <p>{{ section.settings.feature_3_text }}</p>
+      </div>
+
+      <div class="feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
+          <path d="M3 8v8l9 5 9-5V8"/>
+          <path d="M12 13v8"/>
+        </svg>
+        <h4>{{ section.settings.feature_4_title }}</h4>
+        <p>{{ section.settings.feature_4_text }}</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <h2>{{ section.settings.collections_heading }}</h2>
+        <div class="stitch-divider"></div>
+      </div>
+
+      <div class="collections-grid">
+
+        {% for block in section.blocks %}
+          {% if block.type == 'collection_card' %}
+            <div class="collection-card" {{ block.shopify_attributes }}>
+
+              <div class="shopify-image collection-photo">
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: 700
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '250,400,550,700',
+                      alt: block.settings.title
+                  }}
+                {% else %}
+                  <div class="image-placeholder">
+                    <svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/>
+                      <circle cx="12" cy="13" r="3.5"/>
+                    </svg>
+                    <span>Add Photo</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <h3>{{ block.settings.title }}</h3>
+
+              <a
+                href="{% if block.settings.collection != blank %}{{ block.settings.collection.url }}{% elsif block.settings.url != blank %}{{ block.settings.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}"
+                class="btn btn-secondary"
+              >
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+  <section class="why-us section">
+    <div class="container why-us-inner">
+
+      <div class="why-us-image-wrap">
+        <div class="shopify-image workspace-photo">
+          {% if section.settings.workspace_image != blank %}
+            {{
+              section.settings.workspace_image
+              | image_url: width: 1000
+              | image_tag:
+                loading: 'lazy',
+                widths: '400,600,800,1000',
+                alt: section.settings.workspace_image.alt
+            }}
+          {% else %}
+            <div class="image-placeholder">
+              <svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/>
+                <circle cx="12" cy="13" r="3.5"/>
+              </svg>
+              <span>Add Workspace Photo</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="why-us-badge">
+          <span>{{ section.settings.workspace_badge }}</span>
+        </div>
+      </div>
+
+      <div class="why-us-content">
+        <h2>{{ section.settings.why_heading }}</h2>
+        <div class="stitch-divider left"></div>
+
+        <div class="why-us-grid">
+
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>
+            </svg>
+            <h4>{{ section.settings.why_1_title }}</h4>
+            <p>{{ section.settings.why_1_text }}</p>
+          </div>
+
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 2a3 3 0 0 1 0 6 3 3 0 0 1 0-6zM12 16a3 3 0 0 1 0 6 3 3 0 0 1 0-6zM2 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0zM16 12a3 3 0 0 1 6 0 3 3 0 0 1-6 0z"/>
+            </svg>
+            <h4>{{ section.settings.why_2_title }}</h4>
+            <p>{{ section.settings.why_2_text }}</p>
+          </div>
+
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="6" rx="7" ry="3"/>
+              <ellipse cx="12" cy="18" rx="7" ry="3"/>
+              <line x1="5" y1="6" x2="5" y2="18"/>
+              <line x1="19" y1="6" x2="19" y2="18"/>
+            </svg>
+            <h4>{{ section.settings.why_3_title }}</h4>
+            <p>{{ section.settings.why_3_text }}</p>
+          </div>
+
+          <div class="why-us-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+              <line x1="9" y1="9" x2="9.01" y2="9"/>
+              <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+            <h4>{{ section.settings.why_4_title }}</h4>
+            <p>{{ section.settings.why_4_text }}</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="social-proof section">
+    <div class="container social-proof-inner">
+
+      <div class="testimonial-col">
+        <h3>{{ section.settings.testimonial_heading }}</h3>
+        <div class="stitch-divider left" style="margin-bottom:16px;"></div>
+
+        <div class="testimonial-card">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p>{{ section.settings.testimonial_text }}</p>
+          <span>{{ section.settings.testimonial_name }}</span>
+        </div>
+      </div>
+
+      <div class="instagram-col">
+        <h3>{{ section.settings.instagram_heading }}</h3>
+        <div class="stitch-divider left" style="margin-bottom:16px;"></div>
+
+        <div class="insta-grid">
+          {% for i in (1..4) %}
+            {% assign image_key = 'instagram_image_' | append: i %}
+
+            <div class="shopify-image insta-photo">
+              {% if section.settings[image_key] != blank %}
+                {{
+                  section.settings[image_key]
+                  | image_url: width: 600
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '200,300,450,600',
+                    alt: section.settings.instagram_handle
+                }}
+              {% else %}
+                <div class="image-placeholder">
+                  <svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 8h3l2-3h6l2 3h3v11H4V8z"/>
+                    <circle cx="12" cy="13" r="3.5"/>
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" class="insta-handle">
+            {{ section.settings.instagram_handle }}
+          </a>
+        {% else %}
+          <p class="insta-handle">{{ section.settings.instagram_handle }}</p>
+        {% endif %}
+      </div>
+
+      <div class="newsletter-col">
+        <div class="newsletter-card">
+
+          <h3>{{ section.settings.newsletter_heading }}</h3>
+          <p>{{ section.settings.newsletter_text }}</p>
+
+          {% form 'customer', class: 'newsletter-shopify-form' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+
+            <div class="newsletter-form">
+              <input
+                type="email"
+                name="contact[email]"
+                value="{% if customer %}{{ customer.email }}{% endif %}"
+                placeholder="Enter your email"
+                aria-label="Email address"
+                required
+              >
+
+              <button type="submit" aria-label="Subscribe">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 6h18v12H3z"/>
+                  <path d="M3 7l9 6 9-6"/>
+                </svg>
+              </button>
+            </div>
+
+            {% if form.posted_successfully? %}
+              <p class="form-success">Thank you! You're on the list. 🤍</p>
+            {% endif %}
+
+            {% if form.errors %}
+              <div class="form-error">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+          {% endform %}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="trust-footer">
+  <div class="container trust-grid">
+
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/>
+      </svg>
+      <div>
+        <strong>{{ section.settings.trust_1_title }}</strong>
+        <span>{{ section.settings.trust_1_text }}</span>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+        <path d="M21 3v5h-5"/>
+        <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+        <path d="M3 21v-5h5"/>
+      </svg>
+      <div>
+        <strong>{{ section.settings.trust_2_title }}</strong>
+        <span>{{ section.settings.trust_2_text }}</span>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21s-7-4.5-9.5-9C1 8 2.5 4.5 6 4c2-.3 3.7.7 6 3 2.3-2.3 4-3.3 6-3 3.5.5 5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/>
+      </svg>
+      <div>
+        <strong>{{ section.settings.trust_3_title }}</strong>
+        <span>{{ section.settings.trust_3_text }}</span>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 21c0-9 6-15 15-15 0 9-6 15-15 15z"/>
+        <path d="M5 21c3-3 6-6 15-15"/>
+      </svg>
+      <div>
+        <strong>{{ section.settings.trust_4_title }}</strong>
+        <span>{{ section.settings.trust_4_text }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="copyright">
+    © {{ 'now' | date: '%Y' }} {{ shop.name }} · {{ section.settings.footer_text }}
+  </p>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuBtn = document.getElementById('menuBtn-{{ section.id }}');
+    const mainNav = document.getElementById('mainNav-{{ section.id }}');
+
+    if (!menuBtn || !mainNav) return;
+
+    menuBtn.addEventListener('click', function () {
+      const isOpen = mainNav.classList.toggle('nav-open');
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Lil Stitch Home Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "✨ Free Shipping on Orders Over $100 ✨"
+    },
+    {
+      "type": "text",
+      "id": "logo_main",
+      "label": "Logo main text",
+      "default": "Lil Stitch"
+    },
+    {
+      "type": "text",
+      "id": "logo_sub",
+      "label": "Logo small text",
+      "default": "STUDIO"
+    },
+    {
+      "type": "url",
+      "id": "custom_orders_url",
+      "label": "Custom Orders link"
+    },
+    {
+      "type": "url",
+      "id": "about_url",
+      "label": "About Us link"
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "FAQ link"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact link"
+    },
+
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "Cute. Cozy. Made With"
+    },
+    {
+      "type": "text",
+      "id": "hero_accent",
+      "label": "Accent word",
+      "default": "Love."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "label": "Hero text",
+      "default": "Thoughtfully handmade pieces for your little ones and the people you love."
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text",
+      "label": "Hero button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_url",
+      "label": "Hero button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge",
+      "label": "Hero badge text",
+      "default": "Handmade with care, just for you"
+    },
+
+    {
+      "type": "header",
+      "content": "Feature strip"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_title",
+      "label": "Feature 1 title",
+      "default": "Made with Love"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_text",
+      "label": "Feature 1 text",
+      "default": "Handmade with care in every stitch"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_title",
+      "label": "Feature 2 title",
+      "default": "Premium Quality"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_text",
+      "label": "Feature 2 text",
+      "default": "Soft, durable & made to last"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_title",
+      "label": "Feature 3 title",
+      "default": "Custom Made"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_text",
+      "label": "Feature 3 text",
+      "default": "Personalized just the way you want it"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_title",
+      "label": "Feature 4 title",
+      "default": "Fast Shipping"
+    },
+    {
+      "type": "text",
+      "id": "feature_4_text",
+      "label": "Feature 4 text",
+      "default": "Quick & reliable shipping to you"
+    },
+
+    {
+      "type": "header",
+      "content": "Featured collections"
+    },
+    {
+      "type": "text",
+      "id": "collections_heading",
+      "label": "Collections heading",
+      "default": "Featured Collections"
+    },
+
+    {
+      "type": "header",
+      "content": "Why you'll love it here"
+    },
+    {
+      "type": "image_picker",
+      "id": "workspace_image",
+      "label": "Workspace image"
+    },
+    {
+      "type": "text",
+      "id": "workspace_badge",
+      "label": "Workspace badge text",
+      "default": "Thank you for supporting my small business"
+    },
+    {
+      "type": "text",
+      "id": "why_heading",
+      "label": "Section heading",
+      "default": "Why You'll Love It Here"
+    },
+    {
+      "type": "text",
+      "id": "why_1_title",
+      "label": "Reason 1 title",
+      "default": "Small Business"
+    },
+    {
+      "type": "text",
+      "id": "why_1_text",
+      "label": "Reason 1 text",
+      "default": "Your support means the world to me!"
+    },
+    {
+      "type": "text",
+      "id": "why_2_title",
+      "label": "Reason 2 title",
+      "default": "Unique Designs"
+    },
+    {
+      "type": "text",
+      "id": "why_2_text",
+      "label": "Reason 2 text",
+      "default": "Original, trendy & made with creativity"
+    },
+    {
+      "type": "text",
+      "id": "why_3_title",
+      "label": "Reason 3 title",
+      "default": "Quality Crafted"
+    },
+    {
+      "type": "text",
+      "id": "why_3_text",
+      "label": "Reason 3 text",
+      "default": "Every piece is sewn with attention to detail"
+    },
+    {
+      "type": "text",
+      "id": "why_4_title",
+      "label": "Reason 4 title",
+      "default": "Made to Make You Smile"
+    },
+    {
+      "type": "text",
+      "id": "why_4_text",
+      "label": "Reason 4 text",
+      "default": "Cute pieces for life's little moments"
+    },
+
+    {
+      "type": "header",
+      "content": "Testimonial"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_heading",
+      "label": "Heading",
+      "default": "Kind Words"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_text",
+      "label": "Testimonial",
+      "default": "The quality is amazing and the details are just perfect! We love everything we've ordered!"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_name",
+      "label": "Customer name",
+      "default": "— Jessica M."
+    },
+
+    {
+      "type": "header",
+      "content": "Instagram"
+    },
+    {
+      "type": "text",
+      "id": "instagram_heading",
+      "label": "Heading",
+      "default": "Follow Along"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Instagram handle",
+      "default": "@lilstitch.studio"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_1",
+      "label": "Instagram image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_2",
+      "label": "Instagram image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_3",
+      "label": "Instagram image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "instagram_image_4",
+      "label": "Instagram image 4"
+    },
+
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Let's Stay Connected!"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Text",
+      "default": "Be the first to know about new drops, sales & more."
+    },
+
+    {
+      "type": "header",
+      "content": "Trust footer"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_title",
+      "label": "Trust item 1 title",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_text",
+      "label": "Trust item 1 text",
+      "default": "Shop with confidence"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_title",
+      "label": "Trust item 2 title",
+      "default": "Hassle-Free Returns"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_text",
+      "label": "Trust item 2 text",
+      "default": "Easy returns within 14 days"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_title",
+      "label": "Trust item 3 title",
+      "default": "Made with Love"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_text",
+      "label": "Trust item 3 text",
+      "default": "Thank you for supporting handmade"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_title",
+      "label": "Trust item 4 title",
+      "default": "Premium Quality"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_text",
+      "label": "Trust item 4 text",
+      "default": "You & your little ones deserve the best"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "Made with 🤍 for little ones everywhere"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Baby & Kids"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify collection"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Alternative link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Shop Now"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Lil Stitch Home Page",
+      "blocks": [
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Baby & Kids"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Mama Collection"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Local Love"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Seasonal"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Custom Orders"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
