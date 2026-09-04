@@ -1,7 +1,121 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "main-page"
+      "type": "main-page",
+      "blocks": {
+        "collection_card_q3DRgA": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Little Ones",
+            "collection": "",
+            "url": "",
+            "button_text": "Shop Little Ones"
+          }
+        },
+        "collection_card_6GX4Xj": {
+          "type": "collection_card",
+          "settings": {
+            "title": "For Mama",
+            "collection": "",
+            "url": "",
+            "button_text": "Shop Mama"
+          }
+        },
+        "collection_card_GXBGET": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Made Just for You",
+            "collection": "",
+            "url": "",
+            "button_text": "Customize Yours"
+          }
+        },
+        "collection_card_nqheNz": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Seasonal Favourites",
+            "collection": "",
+            "url": "",
+            "button_text": "Shop Seasonal"
+          }
+        },
+        "collection_card_Rwf7tr": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Best Sellers",
+            "collection": "",
+            "url": "",
+            "button_text": "Shop Best Sellers"
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_q3DRgA",
+        "collection_card_6GX4Xj",
+        "collection_card_GXBGET",
+        "collection_card_nqheNz",
+        "collection_card_Rwf7tr"
+      ],
+      "settings": {
+        "announcement_text": "✨ Free Shipping on Orders Over $100 ✨",
+        "logo_main": "Lil Stitch",
+        "logo_sub": "STUDIO",
+        "custom_orders_url": "",
+        "about_url": "",
+        "faq_url": "",
+        "contact_url": "",
+        "hero_heading": "Cute. Cozy. Made With",
+        "hero_accent": "Love.",
+        "hero_text": "Thoughtfully handmade pieces for your little ones and the people you love.",
+        "hero_button_text": "Shop Now",
+        "hero_button_url": "shopify://collections/all",
+        "hero_badge": "Handmade with care, just for you",
+        "feature_1_title": "Made with Love",
+        "feature_1_text": "Handmade with care in every stitch",
+        "feature_2_title": "Premium Quality",
+        "feature_2_text": "Soft, durable & made to last",
+        "feature_3_title": "Custom Made",
+        "feature_3_text": "Personalized just the way you want it",
+        "feature_4_title": "Fast Shipping",
+        "feature_4_text": "Quick & reliable shipping to you",
+        "collections_heading": "Featured Collections",
+        "workspace_badge": "Thank you for supporting my small business",
+        "why_heading": "Why You'll Love It Here",
+        "why_1_title": "Small Business",
+        "why_1_text": "Your support means the world to me!",
+        "why_2_title": "Unique Designs",
+        "why_2_text": "Original, trendy & made with creativity",
+        "why_3_title": "Quality Crafted",
+        "why_3_text": "Every piece is sewn with attention to detail",
+        "why_4_title": "Made to Make You Smile",
+        "why_4_text": "Cute pieces for life's little moments",
+        "testimonial_heading": "Kind Words",
+        "testimonial_text": "The quality is amazing and the details are just perfect! We love everything we've ordered!",
+        "testimonial_name": "— Jessica M.",
+        "instagram_heading": "Follow Along",
+        "instagram_handle": "@lilstitch.studio",
+        "instagram_url": "",
+        "newsletter_heading": "Let's Stay Connected!",
+        "newsletter_text": "Be the first to know about new drops, sales & more.",
+        "trust_1_title": "Secure Checkout",
+        "trust_1_text": "Shop with confidence",
+        "trust_2_title": "Hassle-Free Returns",
+        "trust_2_text": "Easy returns within 14 days",
+        "trust_3_title": "Made with Love",
+        "trust_3_text": "Thank you for supporting handmade",
+        "trust_4_title": "Premium Quality",
+        "trust_4_text": "You & your little ones deserve the best",
+        "footer_text": "Made with 🤍 for little ones everywhere"
+      }
     }
   },
   "order": [
