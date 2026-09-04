@@ -6,9 +6,23 @@
   <div class="container header-inner">
 
     <a href="{{ routes.root_url }}" class="logo">
-      <span class="logo-script">{{ section.settings.logo_main }}</span>
-      <span class="logo-sub">{{ section.settings.logo_sub }}</span>
-    </a>
+  {% if section.settings.header_logo != blank %}
+    <img
+      src="{{ section.settings.header_logo | image_url: width: 500 }}"
+      alt="{{ shop.name | escape }}"
+      style="
+        display:block;
+        width:180px;
+        max-width:100%;
+        height:auto;
+        object-fit:contain;
+      "
+    >
+  {% else %}
+    <span class="logo-script">{{ section.settings.logo_main }}</span>
+    <span class="logo-sub">{{ section.settings.logo_sub }}</span>
+  {% endif %}
+</a>
 
     <button
       class="mobile-menu-btn"
@@ -507,6 +521,11 @@
       "label": "Announcement text",
       "default": "✨ Free Shipping on Orders Over $100 ✨"
     },
+{
+  "type": "image_picker",
+  "id": "header_logo",
+  "label": "Header logo"
+},
     {
       "type": "text",
       "id": "logo_main",
