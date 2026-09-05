@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!button || !nav) return;
 
   button.addEventListener('click', function () {
-    const isOpen = nav.classList.toggle('open');
+    const isOpen = nav.classList.toggle('nav-open');
     button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 });
