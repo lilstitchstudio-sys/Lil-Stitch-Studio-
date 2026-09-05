@@ -39,13 +39,36 @@
     </button>
 
     <nav class="main-nav" id="mainNav-{{ section.id }}">
-      <a href="{{ routes.root_url }}">Home</a>
-      <a href="{{ routes.all_products_collection_url }}">Shop All</a>
 
-      {% for link in linklists[section.settings.menu].links %}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {% endfor %}
-    </nav>
+  <div class="mobile-menu-title">
+    ♡ Shop Lil Stitch Studio ✨
+  </div>
+
+  <a href="{{ routes.root_url }}">Home</a>
+
+  <a class="menu-shop-all" href="{{ routes.all_products_collection_url }}">
+    Shop All
+  </a>
+
+  {% for block in section.blocks %}
+    {% if block.type == 'collection_link' %}
+      <a
+        class="menu-collection-link"
+        href="{% if block.settings.collection != blank %}
+          {{ block.settings.collection.url }}
+        {% elsif block.settings.url != blank %}
+          {{ block.settings.url }}
+        {% else %}
+          {{ routes.all_products_collection_url }}
+        {% endif %}"
+        {{ block.shopify_attributes }}
+      >
+        {{ block.settings.title }}
+      </a>
+    {% endif %}
+  {% endfor %}
+
+</nav>
 
     <div class="header-icons">
 
@@ -95,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-{% schema %}
+      
+      {% schema %}
 {
   "name": "Lil Stitch Header",
   "settings": [
@@ -121,11 +145,67 @@ document.addEventListener('DOMContentLoaded', function () {
       "id": "logo_sub",
       "label": "Logo subtitle",
       "default": "cute • cozy • made with love"
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu"
+      "type": "collection_link",
+      "name": "Menu collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Baby & Kids"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify collection"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Alternative link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lil Stitch Header",
+      "blocks": [
+        {
+          "type": "collection_link",
+          "settings": {
+            "title": "Baby & Kids"
+          }
+        },
+        {
+          "type": "collection_link",
+          "settings": {
+            "title": "Mama Collection"
+          }
+        },
+        {
+          "type": "collection_link",
+          "settings": {
+            "title": "Local Love"
+          }
+        },
+        {
+          "type": "collection_link",
+          "settings": {
+            "title": "Seasonal"
+          }
+        },
+        {
+          "type": "collection_link",
+          "settings": {
+            "title": "Custom Orders"
+          }
+        }
+      ]
     }
   ]
 }
