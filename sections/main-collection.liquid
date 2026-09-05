@@ -1,0 +1,550 @@
+<section class="lss-collection-page">
+
+  <div class="lss-collection-wrap">
+
+    <div class="lss-collection-heading">
+      <span>♡ SHOP LIL STITCH STUDIO ♡</span>
+
+      <h1>{{ collection.title }}</h1>
+
+      {% if collection.description != blank %}
+        <div class="lss-collection-description">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+
+      <div class="lss-collection-stitch"></div>
+    </div>
+
+
+    {% if collection.products_count > 0 %}
+
+      <div class="lss-product-grid">
+
+        {% for product in collection.products %}
+
+          <article class="lss-product-card">
+
+            <a href="{{ product.url }}" class="lss-product-card-image">
+
+              {% if product.featured_image %}
+                {{
+                  product.featured_image
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '300,450,600,700',
+                    alt: product.title
+                }}
+              {% else %}
+                <div class="lss-product-placeholder">
+                  ♡
+                </div>
+              {% endif %}
+
+              {% unless product.available %}
+                <span class="lss-soldout-badge">
+                  Sold Out
+                </span>
+              {% endunless %}
+
+            </a>
+
+
+            <div class="lss-product-card-info">
+
+              <a href="{{ product.url }}">
+                <h2>{{ product.title }}</h2>
+              </a>
+
+              <div class="lss-card-price">
+
+                {% if product.compare_at_price_max > product.price %}
+                  <s>
+                    {{ product.compare_at_price_max | money }}
+                  </s>
+                {% endif %}
+
+                <strong>
+                  {% if product.price_varies %}
+                    From {{ product.price_min | money }}
+                  {% else %}
+                    {{ product.price | money }}
+                  {% endif %}
+                </strong>
+
+              </div>
+
+
+              <a
+                href="{{ product.url }}"
+                class="lss-card-button"
+              >
+                {% if product.available %}
+                  View Item ♡
+                {% else %}
+                  View Details
+                {% endif %}
+              </a>
+
+            </div>
+
+          </article>
+
+        {% endfor %}
+
+      </div>
+
+
+      {% if paginate.pages > 1 %}
+        <div class="lss-pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {% endif %}
+
+
+    {% else %}
+
+      <div class="lss-empty-collection">
+
+        <div>♡</div>
+
+        <h2>Nothing here just yet</h2>
+
+        <p>
+          Cute new pieces are coming soon.
+        </p>
+
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="lss-empty-button"
+        >
+          Shop All
+        </a>
+
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</section>
+
+
+<style>
+
+.lss-collection-page {
+  min-height: 100vh;
+
+  padding: 65px 20px 100px;
+
+  background:
+    radial-gradient(circle at 10% 10%, rgba(234,198,198,.22), transparent 28%),
+    radial-gradient(circle at 90% 80%, rgba(225,202,192,.18), transparent 28%),
+    #fbf7f1;
+
+  color: #604f49;
+}
+
+
+.lss-collection-wrap {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+
+.lss-collection-heading {
+  margin-bottom: 48px;
+
+  text-align: center;
+}
+
+
+.lss-collection-heading > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #b17e80;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+.lss-collection-heading h1 {
+  margin: 0;
+
+  color: #69534d;
+
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(40px, 6vw, 60px);
+  line-height: 1;
+}
+
+
+.lss-collection-description {
+  max-width: 650px;
+
+  margin: 15px auto 0;
+
+  color: #83716b;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+.lss-collection-stitch {
+  width: 105px;
+
+  margin: 20px auto 0;
+
+  border-top: 3px dashed #d8aaa7;
+}
+
+
+
+/* PRODUCT GRID */
+
+.lss-product-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 28px;
+}
+
+
+.lss-product-card {
+  overflow: hidden;
+
+  border: 1px solid #e9dcd4;
+  border-radius: 26px;
+
+  background: rgba(255,255,255,.72);
+
+  box-shadow:
+    0 11px 35px rgba(100,76,69,.07);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+
+.lss-product-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 17px 42px rgba(100,76,69,.11);
+}
+
+
+.lss-product-card-image {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 1 / 1.1;
+
+  overflow: hidden;
+
+  background: #f4e9e3;
+}
+
+
+.lss-product-card-image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform .3s ease;
+}
+
+
+.lss-product-card:hover .lss-product-card-image img {
+  transform: scale(1.025);
+}
+
+
+.lss-product-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #cc9697;
+
+  font-size: 52px;
+}
+
+
+.lss-soldout-badge {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255,250,246,.93);
+
+  color: #a06f70;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+
+/* PRODUCT CARD DETAILS */
+
+.lss-product-card-info {
+  padding: 20px;
+}
+
+
+.lss-product-card-info > a:first-child {
+  text-decoration: none;
+}
+
+
+.lss-product-card-info h2 {
+  margin: 0;
+
+  color: #69534d;
+
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+
+.lss-card-price {
+  min-height: 27px;
+
+  margin-top: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: 'Quicksand', sans-serif;
+}
+
+
+.lss-card-price strong {
+  color: #a87072;
+
+  font-size: 14px;
+}
+
+
+.lss-card-price s {
+  color: #ac9993;
+
+  font-size: 11px;
+}
+
+
+.lss-card-button {
+  width: 100%;
+
+  margin-top: 15px;
+  padding: 12px 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: #c98d90;
+
+  color: white;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+
+.lss-card-button:hover {
+  transform: translateY(-1px);
+
+  background: #bd7d80;
+}
+
+
+
+/* EMPTY COLLECTION */
+
+.lss-empty-collection {
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  padding: 60px 25px;
+
+  border: 1px solid #e8d9d1;
+  border-radius: 28px;
+
+  background: rgba(255,255,255,.65);
+
+  text-align: center;
+}
+
+
+.lss-empty-collection > div {
+  color: #ce9697;
+
+  font-size: 48px;
+}
+
+
+.lss-empty-collection h2 {
+  margin: 10px 0;
+
+  color: #6b5650;
+
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 27px;
+}
+
+
+.lss-empty-collection p {
+  color: #8e7c76;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 13px;
+}
+
+
+.lss-empty-button {
+  margin-top: 15px;
+  padding: 13px 24px;
+
+  display: inline-block;
+
+  border-radius: 999px;
+
+  background: #c98d90;
+
+  color: white;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+
+
+/* PAGINATION */
+
+.lss-pagination {
+  margin-top: 50px;
+
+  text-align: center;
+
+  font-family: 'Quicksand', sans-serif;
+}
+
+
+.lss-pagination a,
+.lss-pagination span {
+  margin: 0 4px;
+
+  color: #997671;
+}
+
+
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+  .lss-product-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .lss-collection-page {
+    padding: 42px 13px 70px;
+  }
+
+
+  .lss-product-grid {
+    gap: 12px;
+  }
+
+
+  .lss-product-card {
+    border-radius: 18px;
+  }
+
+
+  .lss-product-card-info {
+    padding: 14px 12px;
+  }
+
+
+  .lss-product-card-info h2 {
+    font-size: 17px;
+  }
+
+
+  .lss-card-price strong {
+    font-size: 12px;
+  }
+
+
+  .lss-card-button {
+    margin-top: 11px;
+    padding: 10px 8px;
+
+    font-size: 10px;
+  }
+
+}
+
+</style>
+
+
+{% schema %}
+{
+  "name": "Lil Stitch Collection",
+  "settings": []
+}
+{% endschema %}
