@@ -1,0 +1,132 @@
+<div class="announcement-bar">
+  <p>{{ section.settings.announcement_text }}</p>
+</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <a href="{{ routes.root_url }}" class="logo">
+      {% if section.settings.header_logo != blank %}
+        <img
+          src="{{ section.settings.header_logo | image_url: width: 500 }}"
+          alt="{{ shop.name | escape }}"
+          style="
+            display:block;
+            width:180px;
+            max-width:100%;
+            height:auto;
+            object-fit:contain;
+          "
+        >
+      {% else %}
+        <span class="logo-script">{{ section.settings.logo_main }}</span>
+        <span class="logo-sub">{{ section.settings.logo_sub }}</span>
+      {% endif %}
+    </a>
+
+    <button
+      class="mobile-menu-btn"
+      id="menuBtn-{{ section.id }}"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      type="button"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <nav class="main-nav" id="mainNav-{{ section.id }}">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop All</a>
+
+      {% for link in linklists[section.settings.menu].links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header-icons">
+
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </a>
+
+      {% if shop.customer_accounts_enabled %}
+        <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 8h12l-1 12H7L6 8z"/>
+          <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+        </svg>
+
+        {% if cart.item_count > 0 %}
+          <span class="cart-badge">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+
+    </div>
+
+  </div>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const button = document.getElementById('menuBtn-{{ section.id }}');
+  const nav = document.getElementById('mainNav-{{ section.id }}');
+
+  if (!button || !nav) return;
+
+  button.addEventListener('click', function () {
+    const isOpen = nav.classList.toggle('open');
+    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Lil Stitch Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "♡ Handmade with love for your little ones ♡"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_logo",
+      "label": "Header logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_main",
+      "label": "Logo name",
+      "default": "Lil Stitch Studio"
+    },
+    {
+      "type": "text",
+      "id": "logo_sub",
+      "label": "Logo subtitle",
+      "default": "cute • cozy • made with love"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
