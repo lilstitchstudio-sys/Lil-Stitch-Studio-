@@ -39,11 +39,6 @@
     </button>
 
     <nav class="main-nav" id="mainNav-{{ section.id }}">
-
-  <div class="mobile-menu-title">
-    ♡ Shop Lil Stitch Studio ✨
-  </div>
-
   <a href="{{ routes.root_url }}">Home</a>
 
   <a class="menu-shop-all" href="{{ routes.all_products_collection_url }}">
@@ -51,16 +46,10 @@
   </a>
 
   {% for block in section.blocks %}
-    {% if block.type == 'collection_link' %}
+    {% if block.type == 'collection_card' %}
       <a
         class="menu-collection-link"
-        href="{% if block.settings.collection != blank %}
-          {{ block.settings.collection.url }}
-        {% elsif block.settings.url != blank %}
-          {{ block.settings.url }}
-        {% else %}
-          {{ routes.all_products_collection_url }}
-        {% endif %}"
+        href="{% if block.settings.collection != blank %}{{ block.settings.collection.url }}{% elsif block.settings.url != blank %}{{ block.settings.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}"
         {{ block.shopify_attributes }}
       >
         {{ block.settings.title }}
@@ -68,6 +57,21 @@
     {% endif %}
   {% endfor %}
 
+  {% if section.settings.custom_orders_url != blank %}
+    <a href="{{ section.settings.custom_orders_url }}">Custom Orders</a>
+  {% endif %}
+
+  {% if section.settings.about_url != blank %}
+    <a href="{{ section.settings.about_url }}">About Us</a>
+  {% endif %}
+
+  {% if section.settings.faq_url != blank %}
+    <a href="{{ section.settings.faq_url }}">FAQ</a>
+  {% endif %}
+
+  {% if section.settings.contact_url != blank %}
+    <a href="{{ section.settings.contact_url }}">Contact</a>
+  {% endif %}
 </nav>
 
     <div class="header-icons">
@@ -145,65 +149,48 @@ document.addEventListener('DOMContentLoaded', function () {
       "id": "logo_sub",
       "label": "Logo subtitle",
       "default": "cute • cozy • made with love"
+    },
+    {
+      "type": "url",
+      "id": "custom_orders_url",
+      "label": "Custom Orders link"
+    },
+    {
+      "type": "url",
+      "id": "about_url",
+      "label": "About Us link"
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "FAQ link"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact link"
     }
   ],
   "blocks": [
     {
-      "type": "collection_link",
-      "name": "Menu collection",
+      "type": "collection_card",
+      "name": "Menu Collection",
       "settings": [
         {
           "type": "text",
           "id": "title",
-          "label": "Title",
+          "label": "Collection name",
           "default": "Baby & Kids"
         },
         {
           "type": "collection",
           "id": "collection",
-          "label": "Shopify collection"
+          "label": "Collection"
         },
         {
           "type": "url",
           "id": "url",
           "label": "Alternative link"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Lil Stitch Header",
-      "blocks": [
-        {
-          "type": "collection_link",
-          "settings": {
-            "title": "Baby & Kids"
-          }
-        },
-        {
-          "type": "collection_link",
-          "settings": {
-            "title": "Mama Collection"
-          }
-        },
-        {
-          "type": "collection_link",
-          "settings": {
-            "title": "Local Love"
-          }
-        },
-        {
-          "type": "collection_link",
-          "settings": {
-            "title": "Seasonal"
-          }
-        },
-        {
-          "type": "collection_link",
-          "settings": {
-            "title": "Custom Orders"
-          }
         }
       ]
     }
