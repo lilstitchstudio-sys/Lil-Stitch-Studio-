@@ -10,6 +10,18 @@
 {
   "current": {
     "header_logo": "shopify://shop_images/Logo3.png",
+    "sections": {
+      "lss-header": {
+        "type": "lss-header",
+        "settings": {
+          "announcement_text": "✨ Free Shipping on Orders Over $150 ✨",
+          "header_logo": "shopify://shop_images/Logo2.png",
+          "logo_main": "Lil Stitch Studio",
+          "logo_sub": "cute • cozy • made with love",
+          "menu": ""
+        }
+      }
+    },
     "content_for_index": []
   }
 }
