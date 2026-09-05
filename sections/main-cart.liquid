@@ -1,0 +1,936 @@
+<div class="lss-cart-page">
+
+  <!-- CART HEADER -->
+  <header class="lss-cart-header">
+    <div class="lss-cart-header-inner">
+
+      <a href="{{ routes.root_url }}" class="lss-cart-brand">
+        <span class="lss-cart-brand-main">Lil Stitch Studio</span>
+        <span class="lss-cart-brand-sub">cute • cozy • made with love</span>
+      </a>
+
+      <a href="{{ routes.cart_url }}" class="lss-cart-bag" aria-label="Shopping cart">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M6 8h12l-1 12H7L6 8z"/>
+          <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+        </svg>
+
+        {% if cart.item_count > 0 %}
+          <span class="lss-cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+
+    </div>
+  </header>
+
+
+  <main class="lss-cart-main">
+
+    <div class="lss-cart-title">
+      <span class="lss-cart-eyebrow">♡ YOUR LITTLE SHOPPING BAG ♡</span>
+      <h1>Your Bag</h1>
+      <div class="lss-cart-stitch"></div>
+    </div>
+
+
+    {% if cart.item_count == 0 %}
+
+      <!-- EMPTY CART -->
+      <div class="lss-empty-cart">
+
+        <div class="lss-empty-heart">♡</div>
+
+        <h2>Your bag is feeling a little empty</h2>
+
+        <p>
+          Let's find something cute to fill it with.
+        </p>
+
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="lss-button lss-button-primary"
+        >
+          Shop Lil Stitch Studio
+          <span>♡</span>
+        </a>
+
+        <a href="{{ routes.root_url }}" class="lss-back-home">
+          ← Back to home
+        </a>
+
+      </div>
+
+
+    {% else %}
+
+      <!-- CART WITH ITEMS -->
+      <form action="{{ routes.cart_url }}" method="post" class="lss-cart-form">
+
+        <div class="lss-cart-layout">
+
+          <!-- LEFT SIDE: PRODUCTS -->
+          <div class="lss-cart-products">
+
+            {% for item in cart.items %}
+
+              <div class="lss-cart-item">
+
+                <!-- PRODUCT IMAGE -->
+                <a href="{{ item.url }}" class="lss-cart-image">
+
+                  {% if item.image %}
+                    {{
+                      item.image
+                      | image_url: width: 500
+                      | image_tag:
+                        loading: 'lazy',
+                        alt: item.product.title
+                    }}
+                  {% else %}
+                    <div class="lss-image-placeholder">
+                      ♡
+                    </div>
+                  {% endif %}
+
+                </a>
+
+
+                <!-- PRODUCT INFO -->
+                <div class="lss-cart-info">
+
+                  <div class="lss-cart-info-top">
+
+                    <div>
+                      <a href="{{ item.url }}" class="lss-product-title">
+                        {{ item.product.title }}
+                      </a>
+
+                      {% unless item.product.has_only_default_variant %}
+                        <div class="lss-variant-info">
+                          {% for option in item.options_with_values %}
+                            <span>
+                              {{ option.name }}: {{ option.value }}
+                            </span>
+                          {% endfor %}
+                        </div>
+                      {% endunless %}
+
+                      {% if item.properties.size > 0 %}
+                        <div class="lss-line-properties">
+                          {% for property in item.properties %}
+                            {% assign first_character = property.first | slice: 0 %}
+                            {% unless property.last == blank or first_character == '_' %}
+                              <span>
+                                {{ property.first }}: {{ property.last }}
+                              </span>
+                            {% endunless %}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
+
+
+                    <div class="lss-item-price">
+                      {% if item.original_line_price != item.final_line_price %}
+                        <s>{{ item.original_line_price | money }}</s>
+                      {% endif %}
+
+                      <strong>{{ item.final_line_price | money }}</strong>
+                    </div>
+
+                  </div>
+
+
+                  <!-- QUANTITY + REMOVE -->
+                  <div class="lss-cart-actions">
+
+                    <div class="lss-quantity">
+
+                      <button
+                        type="button"
+                        class="lss-qty-button"
+                        onclick="changeLSSQuantity(this, -1)"
+                        aria-label="Decrease quantity"
+                      >
+                        −
+                      </button>
+
+                      <input
+                        type="number"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        class="lss-qty-input"
+                        aria-label="Quantity for {{ item.product.title | escape }}"
+                      >
+
+                      <button
+                        type="button"
+                        class="lss-qty-button"
+                        onclick="changeLSSQuantity(this, 1)"
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+
+                    </div>
+
+
+                    <a
+                      href="{{ item.url_to_remove }}"
+                      class="lss-remove"
+                    >
+                      Remove
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            {% endfor %}
+
+
+            <button
+              type="submit"
+              name="update"
+              class="lss-update-cart"
+            >
+              Update Bag
+            </button>
+
+          </div>
+
+
+          <!-- RIGHT SIDE: SUMMARY -->
+          <aside class="lss-summary">
+
+            <div class="lss-summary-card">
+
+              <span class="lss-summary-small">♡ ALMOST YOURS ♡</span>
+
+              <h2>Order Summary</h2>
+
+              <div class="lss-summary-line">
+                <span>Subtotal</span>
+                <strong>{{ cart.total_price | money }}</strong>
+              </div>
+
+              {% if cart.cart_level_discount_applications.size > 0 %}
+
+                <div class="lss-discounts">
+
+                  {% for discount in cart.cart_level_discount_applications %}
+                    <div class="lss-summary-line discount">
+                      <span>{{ discount.title }}</span>
+                      <span>
+                        -{{ discount.total_allocated_amount | money }}
+                      </span>
+                    </div>
+                  {% endfor %}
+
+                </div>
+
+              {% endif %}
+
+              <div class="lss-summary-divider"></div>
+
+              <div class="lss-summary-total">
+                <span>Total</span>
+                <strong>{{ cart.total_price | money }}</strong>
+              </div>
+
+              <p class="lss-shipping-note">
+                Shipping and taxes calculated at checkout.
+              </p>
+
+
+              <!-- REAL SHOPIFY CHECKOUT BUTTON -->
+              <button
+                type="submit"
+                name="checkout"
+                class="lss-checkout-button"
+              >
+                Checkout
+                <span>♡</span>
+              </button>
+
+
+              <div class="lss-secure">
+                ♡ Secure checkout powered by Shopify
+              </div>
+
+            </div>
+
+
+            <a
+              href="{{ routes.all_products_collection_url }}"
+              class="lss-continue-shopping"
+            >
+              ← Continue Shopping
+            </a>
+
+          </aside>
+
+        </div>
+
+      </form>
+
+    {% endif %}
+
+  </main>
+
+</div>
+
+
+<script>
+  function changeLSSQuantity(button, amount) {
+    const wrapper = button.closest('.lss-quantity');
+    const input = wrapper.querySelector('.lss-qty-input');
+
+    let quantity = parseInt(input.value, 10) || 0;
+
+    quantity += amount;
+
+    if (quantity < 0) {
+      quantity = 0;
+    }
+
+    input.value = quantity;
+  }
+</script>
+
+
+<style>
+
+  .lss-cart-page {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(236, 204, 203, 0.22), transparent 28%),
+      radial-gradient(circle at 90% 80%, rgba(221, 186, 187, 0.18), transparent 30%),
+      #fbf7f1;
+    color: #4f4541;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+
+  /* HEADER */
+
+  .lss-cart-header {
+    background: rgba(255, 251, 246, 0.95);
+    border-bottom: 1px solid #eadfd7;
+  }
+
+  .lss-cart-header-inner {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    min-height: 92px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lss-cart-brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #6d5a55;
+  }
+
+  .lss-cart-brand-main {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .lss-cart-brand-sub {
+    margin-top: 6px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ad8584;
+    font-weight: 700;
+  }
+
+  .lss-cart-bag {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #8b6d68;
+    background: #f6ebe7;
+    text-decoration: none;
+  }
+
+  .lss-cart-bag svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .lss-cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+    background: #c8898d;
+    color: white;
+
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+
+  /* MAIN */
+
+  .lss-cart-main {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 62px 0 90px;
+  }
+
+  .lss-cart-title {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .lss-cart-eyebrow,
+  .lss-summary-small {
+    display: block;
+    color: #b17e7f;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .lss-cart-title h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(38px, 6vw, 58px);
+    line-height: 1;
+    margin: 0;
+    color: #6c5750;
+  }
+
+  .lss-cart-stitch {
+    width: 100px;
+    margin: 18px auto 0;
+    border-top: 3px dashed #d8aaa7;
+  }
+
+
+  /* EMPTY CART */
+
+  .lss-empty-cart {
+    max-width: 620px;
+    margin: 0 auto;
+
+    padding: 65px 30px;
+
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #eaded6;
+    border-radius: 32px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 50px rgba(109, 81, 76, 0.08);
+  }
+
+  .lss-empty-heart {
+    font-size: 56px;
+    color: #cf9998;
+    margin-bottom: 12px;
+  }
+
+  .lss-empty-cart h2 {
+    margin: 0 0 10px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    color: #6b5650;
+  }
+
+  .lss-empty-cart p {
+    margin: 0 0 28px;
+    color: #877670;
+    font-size: 15px;
+  }
+
+  .lss-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 15px 27px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .lss-button-primary {
+    background: #c98d90;
+    color: white;
+    box-shadow: 0 7px 18px rgba(160, 103, 104, 0.2);
+  }
+
+  .lss-back-home {
+    display: block;
+    margin-top: 22px;
+
+    color: #9d7a75;
+    font-size: 13px;
+    text-decoration: none;
+  }
+
+
+  /* CART LAYOUT */
+
+  .lss-cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, .8fr);
+    gap: 45px;
+    align-items: start;
+  }
+
+  .lss-cart-products {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+
+  /* CART ITEM */
+
+  .lss-cart-item {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    gap: 24px;
+
+    padding: 20px;
+
+    background: rgba(255, 255, 255, 0.75);
+
+    border: 1px solid #eaded7;
+    border-radius: 24px;
+
+    box-shadow: 0 8px 30px rgba(105, 78, 71, 0.06);
+  }
+
+  .lss-cart-image {
+    display: block;
+    width: 145px;
+    aspect-ratio: 1 / 1.08;
+    overflow: hidden;
+
+    border-radius: 18px;
+    background: #f5ebe4;
+  }
+
+  .lss-cart-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .lss-image-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #c99594;
+    font-size: 38px;
+  }
+
+  .lss-cart-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .lss-cart-info-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .lss-product-title {
+    display: inline-block;
+
+    color: #63504a;
+
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+
+    text-decoration: none;
+  }
+
+  .lss-variant-info,
+  .lss-line-properties {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 6px;
+
+    color: #96827c;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .lss-item-price {
+    display: flex;
+    flex-direction: column;
+
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .lss-item-price strong {
+    color: #6e5952;
+    font-size: 16px;
+  }
+
+  .lss-item-price s {
+    margin-bottom: 2px;
+    color: #aa9993;
+    font-size: 12px;
+  }
+
+
+  /* QUANTITY */
+
+  .lss-cart-actions {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .lss-quantity {
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    border: 1px solid #dfcec5;
+    border-radius: 999px;
+    background: white;
+  }
+
+  .lss-qty-button {
+    width: 38px;
+    height: 100%;
+
+    border: 0;
+    background: transparent;
+
+    color: #8f706b;
+    font-size: 19px;
+
+    cursor: pointer;
+  }
+
+  .lss-qty-input {
+    width: 40px;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+
+    color: #5f504b;
+    font-family: inherit;
+    font-weight: 700;
+    text-align: center;
+
+    -moz-appearance: textfield;
+  }
+
+  .lss-qty-input::-webkit-outer-spin-button,
+  .lss-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .lss-remove {
+    color: #ad7b7b;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-underline-offset: 3px;
+  }
+
+  .lss-update-cart {
+    align-self: flex-start;
+
+    padding: 11px 18px;
+
+    border: 1px solid #d9bbb5;
+    border-radius: 999px;
+
+    background: transparent;
+    color: #8e6e68;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+  }
+
+
+  /* SUMMARY */
+
+  .lss-summary {
+    position: sticky;
+    top: 25px;
+  }
+
+  .lss-summary-card {
+    padding: 32px;
+
+    border: 1px solid #e8d9d1;
+    border-radius: 28px;
+
+    background: #fffaf6;
+
+    box-shadow: 0 16px 45px rgba(103, 77, 71, 0.09);
+  }
+
+  .lss-summary-card h2 {
+    margin: 0 0 25px;
+
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 27px;
+
+    color: #69534d;
+  }
+
+  .lss-summary-line,
+  .lss-summary-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #7d6a64;
+    font-size: 14px;
+  }
+
+  .lss-summary-line strong {
+    color: #5f4d48;
+  }
+
+  .lss-summary-line.discount {
+    margin-top: 8px;
+    color: #a77274;
+  }
+
+  .lss-summary-divider {
+    margin: 22px 0;
+    border-top: 2px dashed #e2cbc3;
+  }
+
+  .lss-summary-total span {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .lss-summary-total strong {
+    font-size: 20px;
+    color: #64504a;
+  }
+
+  .lss-shipping-note {
+    margin: 12px 0 22px;
+
+    color: #9a8781;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+
+  /* CHECKOUT BUTTON */
+
+  .lss-checkout-button {
+    width: 100%;
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: #c8898d;
+    color: white;
+
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .3px;
+
+    box-shadow: 0 8px 22px rgba(170, 110, 113, 0.22);
+
+    cursor: pointer;
+
+    transition: transform .2s ease, background .2s ease;
+  }
+
+  .lss-checkout-button:hover {
+    transform: translateY(-2px);
+    background: #bd7c80;
+  }
+
+  .lss-secure {
+    margin-top: 14px;
+
+    color: #aa9690;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .lss-continue-shopping {
+    display: block;
+
+    margin-top: 18px;
+
+    color: #92736e;
+    font-size: 13px;
+    font-weight: 700;
+
+    text-align: center;
+    text-decoration: none;
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 800px) {
+
+    .lss-cart-header-inner,
+    .lss-cart-main {
+      width: min(100% - 28px, 1180px);
+    }
+
+    .lss-cart-header-inner {
+      min-height: 78px;
+    }
+
+    .lss-cart-brand-main {
+      font-size: 28px;
+    }
+
+    .lss-cart-brand-sub {
+      font-size: 8px;
+      letter-spacing: 1.3px;
+    }
+
+    .lss-cart-main {
+      padding: 42px 0 70px;
+    }
+
+    .lss-cart-title {
+      margin-bottom: 32px;
+    }
+
+    .lss-cart-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .lss-summary {
+      position: static;
+    }
+
+  }
+
+
+  @media (max-width: 560px) {
+
+    .lss-cart-item {
+      grid-template-columns: 100px 1fr;
+      gap: 15px;
+      padding: 14px;
+      border-radius: 20px;
+    }
+
+    .lss-cart-image {
+      width: 100px;
+      border-radius: 15px;
+    }
+
+    .lss-cart-info-top {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .lss-item-price {
+      text-align: left;
+    }
+
+    .lss-product-title {
+      font-size: 17px;
+    }
+
+    .lss-cart-actions {
+      align-items: flex-end;
+      flex-direction: column;
+    }
+
+    .lss-remove {
+      align-self: flex-start;
+    }
+
+    .lss-summary-card {
+      padding: 25px 22px;
+    }
+
+  }
+
+</style>
+
+
+{% schema %}
+{
+  "name": "Lil Stitch Cart",
+  "settings": []
+}
+{% endschema %}
