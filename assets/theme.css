@@ -1084,7 +1084,9 @@ a.insta-handle {
 }
 
 a.insta-handle::before {
-  content: "♡ Follow ";
+  content: "♡ Follow";
+  display: inline-block;
+  margin-right: 5px;
 }
 
 a.insta-handle::after {
