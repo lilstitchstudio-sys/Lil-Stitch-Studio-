@@ -1067,13 +1067,10 @@ input:focus-visible {
   }
 }
 /* Cute Instagram follow button */
-.insta-handle {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.insta-handle a {
-  display: inline-flex;
+a.insta-handle {
+  display: flex;
+  width: fit-content;
+  margin: 20px auto 0;
   align-items: center;
   justify-content: center;
   padding: 12px 22px;
@@ -1086,10 +1083,10 @@ input:focus-visible {
   box-shadow: 0 6px 16px rgba(69, 58, 44, 0.12);
 }
 
-.insta-handle a::before {
+a.insta-handle::before {
   content: "♡ Follow ";
 }
 
-.insta-handle a::after {
+a.insta-handle::after {
   content: " on Instagram";
 }
