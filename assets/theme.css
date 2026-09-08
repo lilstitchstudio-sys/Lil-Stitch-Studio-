@@ -1088,5 +1088,7 @@ a.insta-handle::before {
 }
 
 a.insta-handle::after {
-  content: " on Instagram";
+  content: "on Instagram";
+  display: inline-block;
+  margin-left: 5px;
 }
