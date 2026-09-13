@@ -16,7 +16,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Little Ones",
-            "collection": "",
+            "collection": "little-ones",
             "url": "",
             "button_text": "Shop Little Ones"
           }
@@ -25,7 +25,7 @@
           "type": "collection_card",
           "settings": {
             "title": "For Mama",
-            "collection": "waffle-set-preorder",
+            "collection": "for-mama",
             "url": "",
             "button_text": "Shop Mama"
           }
@@ -34,7 +34,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Made Just for You",
-            "collection": "",
+            "collection": "made-just-for-you",
             "url": "",
             "button_text": "Customize Yours"
           }
@@ -43,7 +43,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Seasonal Favourites",
-            "collection": "fall-halloween-collection",
+            "collection": "seasonal-favourites",
             "url": "",
             "button_text": "Shop Seasonal"
           }
@@ -52,7 +52,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Best Sellers",
-            "collection": "",
+            "collection": "best-sellers",
             "url": "",
             "button_text": "Shop Best Sellers"
           }
