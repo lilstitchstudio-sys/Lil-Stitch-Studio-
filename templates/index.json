@@ -16,6 +16,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Little Ones",
+            "image": "shopify://shop_images/AD96CAC2-9E3A-462A-A37C-E732A51D9D86.jpg",
             "collection": "little-ones",
             "url": "",
             "button_text": "Shop Little Ones"
@@ -43,6 +44,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Seasonal Favourites",
+            "image": "shopify://shop_images/IMG_5820.jpg",
             "collection": "seasonal-favourites",
             "url": "",
             "button_text": "Shop Seasonal"
@@ -79,6 +81,7 @@
         "hero_text": "Thoughtfully handmade pieces for your little ones and the people you love.",
         "hero_button_text": "Shop the Latest Drop",
         "hero_button_url": "shopify://collections/all",
+        "hero_image": "shopify://shop_images/1B6CC35A-DD3D-4019-A45C-0B8FF25C6958.jpg",
         "hero_badge": "Handmade with care, just for you",
         "feature_1_title": "Made with Love",
         "feature_1_text": "Handmade with care in every stitch",
