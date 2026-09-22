@@ -26,6 +26,7 @@
           "type": "collection_card",
           "settings": {
             "title": "For Mama",
+            "image": "shopify://shop_images/0BE97470-795B-4F3A-8D75-04DC8CCE86E5.png",
             "collection": "for-mama",
             "url": "",
             "button_text": "Shop Mama"
@@ -35,6 +36,7 @@
           "type": "collection_card",
           "settings": {
             "title": "Made Just for You",
+            "image": "shopify://shop_images/0BE97470-795B-4F3A-8D75-04DC8CCE86E5.png",
             "collection": "made-just-for-you",
             "url": "",
             "button_text": "Customize Yours"
