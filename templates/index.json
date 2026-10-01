@@ -54,6 +54,7 @@
         },
         "collection_card_Rwf7tr": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "title": "Best Sellers",
             "collection": "best-sellers",
