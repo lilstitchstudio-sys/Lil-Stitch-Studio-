@@ -72,12 +72,26 @@
     Made Just for You
   </a>
 
-  <a
-    class="menu-collection-link"
-    href="/collections/seasonal-favourites"
+  <div class="seasonal-menu">
+  <button
+    class="seasonal-menu-toggle"
+    type="button"
+    aria-expanded="false"
   >
     Seasonal Favourites
-  </a>
+    <span class="seasonal-arrow">⌄</span>
+  </button>
+
+  <div class="seasonal-submenu">
+    <a href="/collections/fall-halloween">
+      Fall + Halloween
+    </a>
+
+    <a href="/collections/christmas">
+      Christmas
+    </a>
+  </div>
+</div>
 
 
 <a
@@ -122,21 +136,77 @@
 
   </div>
 </header>
+<style>
+  .seasonal-menu {
+    width: 100%;
+  }
+
+  .seasonal-menu-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .seasonal-arrow {
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+  }
+
+  .seasonal-menu.open .seasonal-arrow {
+    transform: rotate(180deg);
+  }
+
+  .seasonal-submenu {
+    display: none;
+    padding-left: 18px;
+    margin-top: 8px;
+  }
+
+  .seasonal-menu.open .seasonal-submenu {
+    display: block;
+  }
+
+  .seasonal-submenu a {
+    display: block;
+    padding: 7px 0;
+    font-size: 0.95em;
+  }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const button = document.getElementById('menuBtn-{{ section.id }}');
   const nav = document.getElementById('mainNav-{{ section.id }}');
 
-  if (!button || !nav) return;
+  if (button && nav) {
+    button.addEventListener('click', function () {
+      const isOpen = nav.classList.toggle('nav-open');
+      button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
 
-  button.addEventListener('click', function () {
-    const isOpen = nav.classList.toggle('nav-open');
-    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
+  const seasonalMenu = document.querySelector('.seasonal-menu');
+  const seasonalToggle = document.querySelector('.seasonal-menu-toggle');
+
+  if (seasonalMenu && seasonalToggle) {
+    seasonalToggle.addEventListener('click', function () {
+      const isOpen = seasonalMenu.classList.toggle('open');
+      seasonalToggle.setAttribute(
+        'aria-expanded',
+        isOpen ? 'true' : 'false'
+      );
+    });
+  }
 });
 </script>
-
       
       {% schema %}
 {
