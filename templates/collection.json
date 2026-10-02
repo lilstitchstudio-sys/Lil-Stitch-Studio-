@@ -12,9 +12,15 @@
     "main": {
       "type": "main-collection",
       "settings": {}
+    },
+    "lss_seasonal_collection_MNbPnM": {
+      "type": "lss-seasonal-collection",
+      "name": "Seasonal Collection",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "lss_seasonal_collection_MNbPnM"
   ]
 }
