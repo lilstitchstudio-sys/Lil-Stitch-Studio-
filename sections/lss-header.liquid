@@ -136,49 +136,67 @@
 
   </div>
 </header>
+
 <style>
   .seasonal-menu {
-    width: 100%;
-  }
+  width: 100%;
+  margin: 0;
+}
 
-  .seasonal-menu-toggle {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-  }
+.seasonal-menu-toggle {
+  width: 100%;
+  background: #e9cfcf;
+  border: none;
+  border-radius: 18px;
+  padding: 18px 28px;
+  font: inherit;
+  color: #4b3d3d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  box-sizing: border-box;
+}
 
-  .seasonal-arrow {
-    margin-left: 8px;
-    transition: transform 0.2s ease;
-  }
+.seasonal-menu-toggle:hover {
+  opacity: 0.95;
+}
 
-  .seasonal-menu.open .seasonal-arrow {
-    transform: rotate(180deg);
-  }
+.seasonal-arrow {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
 
-  .seasonal-submenu {
-    display: none;
-    padding-left: 18px;
-    margin-top: 8px;
-  }
+.seasonal-menu.open .seasonal-arrow {
+  transform: rotate(180deg);
+}
 
-  .seasonal-menu.open .seasonal-submenu {
-    display: block;
-  }
+.seasonal-submenu {
+  display: none;
+  padding: 10px 0 0 14px;
+}
 
-  .seasonal-submenu a {
-    display: block;
-    padding: 7px 0;
-    font-size: 0.95em;
-  }
+.seasonal-menu.open .seasonal-submenu {
+  display: block;
+}
+
+.seasonal-submenu a {
+  display: block;
+  background: #faf7f3;
+  border: 1px solid #d9d3cc;
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  color: #4b3d3d;
+  text-decoration: none;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.seasonal-submenu a:hover {
+  background: #f5eeee;
+}
 </style>
 
 <script>
