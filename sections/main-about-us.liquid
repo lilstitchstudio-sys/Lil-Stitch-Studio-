@@ -1,0 +1,120 @@
+<section class="lss-about-page">
+  <div class="lss-about-inner">
+
+    <div class="lss-about-heading">
+      <div class="lss-about-eyebrow">♡ LIL STITCH STUDIO ♡</div>
+
+      <h1>{{ page.title }}</h1>
+
+      <div class="lss-about-divider">
+        ♡ ─── ♡
+      </div>
+    </div>
+
+    <div class="lss-about-card">
+      {{ page.content }}
+    </div>
+
+    <div class="lss-about-bottom">
+      <span>♡</span>
+      <p>Handmade with care. Made for little moments.</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .lss-about-page {
+    padding: 45px 20px 65px;
+    background: #fffdf9;
+  }
+
+  .lss-about-inner {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .lss-about-heading {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .lss-about-eyebrow {
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #9dad7f;
+    margin-bottom: 12px;
+  }
+
+  .lss-about-heading h1 {
+    font-family: "Quicksand", sans-serif;
+    color: #5b514b;
+    font-size: 36px;
+    margin: 0 0 12px;
+  }
+
+  .lss-about-divider {
+    color: #d8aaa5;
+    font-size: 15px;
+  }
+
+  .lss-about-card {
+    background: #fbf5f3;
+    border-radius: 24px;
+    padding: 32px;
+    color: #5b514b;
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .lss-about-card h1,
+  .lss-about-card h2,
+  .lss-about-card h3 {
+    color: #5b514b;
+  }
+
+  .lss-about-bottom {
+    text-align: center;
+    margin-top: 28px;
+    color: #9dad7f;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  .lss-about-bottom span {
+    font-size: 25px;
+  }
+
+  .lss-about-bottom p {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .lss-about-page {
+      padding: 30px 16px 50px;
+    }
+
+    .lss-about-heading h1 {
+      font-size: 30px;
+    }
+
+    .lss-about-card {
+      padding: 24px 20px;
+      font-size: 15px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [],
+  "presets": [
+    {
+      "name": "About Us"
+    }
+  ]
+}
+{% endschema %}
