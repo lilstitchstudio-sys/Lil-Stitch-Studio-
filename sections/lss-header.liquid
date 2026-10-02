@@ -72,26 +72,75 @@
     Made Just for You
   </a>
 
-  <div class="seasonal-menu">
+  <div class="seasonal-dropdown">
+
   <button
-    class="seasonal-menu-toggle"
     type="button"
-    aria-expanded="false"
+    class="menu-collection-link seasonal-toggle"
+    onclick="this.parentElement.classList.toggle('seasonal-open')"
   >
-    Seasonal Favourites
-    <span class="seasonal-arrow">⌄</span>
+    <span>Seasonal Favourites</span>
+    <span class="seasonal-chevron">⌄</span>
   </button>
 
-  <div class="seasonal-submenu">
-    <a href="/collections/fall-halloween">
+  <div class="seasonal-links">
+
+    <a
+      class="menu-collection-link seasonal-child"
+      href="/collections/fall-halloween"
+    >
       Fall + Halloween
     </a>
 
-    <a href="/collections/christmas">
+    <a
+      class="menu-collection-link seasonal-child"
+      href="/collections/christmas"
+    >
       Christmas
     </a>
+
   </div>
 </div>
+
+<style>
+  .seasonal-dropdown {
+    width: 100%;
+  }
+
+  .seasonal-toggle {
+    border: 0;
+    cursor: pointer;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    text-align: left;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .seasonal-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .seasonal-links {
+    display: none;
+    padding-top: 10px;
+    padding-left: 14px;
+  }
+
+  .seasonal-open .seasonal-links {
+    display: block;
+  }
+
+  .seasonal-open .seasonal-chevron {
+    transform: rotate(180deg);
+  }
+
+  .seasonal-child {
+    margin-bottom: 10px;
+  }
+</style>
 
 
 <a
