@@ -1,0 +1,159 @@
+{% assign seasonal_type = '' %}
+
+{% if collection.handle == 'fall-halloween' %}
+  {% assign seasonal_type = 'fall' %}
+{% elsif collection.handle == 'christmas' %}
+  {% assign seasonal_type = 'christmas' %}
+{% endif %}
+
+{% if seasonal_type != '' %}
+
+  <div class="lss-seasonal-box lss-seasonal-{{ seasonal_type }}">
+
+    {% if seasonal_type == 'fall' %}
+
+      <div class="lss-seasonal-badges">
+        <span>Handmade with care</span>
+        <span>Limited seasonal styles</span>
+        <span>Cozy fall favourites</span>
+      </div>
+
+      <p class="lss-seasonal-text">
+        Tiny seasonal pieces made for pumpkin patch days,
+        crisp air & a little spooky magic 🎃
+      </p>
+
+      <div class="lss-seasonal-icons">
+        <span>🍂</span>
+        <span>🎃</span>
+        <span>👻</span>
+        <span>🕸️</span>
+      </div>
+
+    {% elsif seasonal_type == 'christmas' %}
+
+      <div class="lss-seasonal-badges">
+        <span>Handmade with care</span>
+        <span>Limited Christmas styles</span>
+        <span>Cozy holiday favourites</span>
+      </div>
+
+      <p class="lss-seasonal-text">
+        Sweet little pieces made for cozy mornings,
+        Christmas magic & festive memories ✨
+      </p>
+
+      <div class="lss-seasonal-icons">
+        <span>🎄</span>
+        <span>🎁</span>
+        <span>❄️</span>
+        <span>✨</span>
+      </div>
+
+    {% endif %}
+
+  </div>
+
+{% endif %}
+
+<style>
+  .lss-seasonal-box {
+    border-radius: 24px;
+    padding: 22px 18px;
+    margin: 20px auto 28px;
+    text-align: center;
+    max-width: 900px;
+    box-sizing: border-box;
+  }
+
+  /* FALL + HALLOWEEN */
+
+  .lss-seasonal-fall {
+    background: #fbf7f2;
+    border: 1px dashed #d4a07e;
+  }
+
+  .lss-seasonal-fall .lss-seasonal-badges span {
+    background: #efd4d1;
+    color: #5b514b;
+  }
+
+  /* CHRISTMAS */
+
+  .lss-seasonal-christmas {
+    background: #fbf8f2;
+    border: 1px dashed #9dad7f;
+  }
+
+  .lss-seasonal-christmas .lss-seasonal-badges span {
+    background: #9dad7f;
+    color: #ffffff;
+  }
+
+  /* SHARED STYLING */
+
+  .lss-seasonal-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .lss-seasonal-badges span {
+    padding: 8px 14px;
+    border-radius: 999px;
+
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .lss-seasonal-text {
+    color: #5b514b;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+
+  .lss-seasonal-icons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .lss-seasonal-box {
+      margin-left: 16px;
+      margin-right: 16px;
+      padding: 20px 14px;
+    }
+
+    .lss-seasonal-badges {
+      gap: 7px;
+    }
+
+    .lss-seasonal-badges span {
+      font-size: 12px;
+      padding: 7px 11px;
+    }
+
+    .lss-seasonal-text {
+      font-size: 14px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Seasonal Collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Seasonal Collection"
+    }
+  ]
+}
+{% endschema %}
