@@ -76,7 +76,7 @@
 
   <button
     type="button"
-    class="menu-collection-link seasonal-toggle"
+    class="seasonal-toggle"
     onclick="this.parentElement.classList.toggle('seasonal-open')"
   >
     <span>Seasonal Favourites</span>
@@ -85,17 +85,11 @@
 
   <div class="seasonal-links">
 
-    <a
-      class="menu-collection-link seasonal-child"
-      href="/collections/fall-halloween"
-    >
+    <a href="/collections/fall-halloween">
       Fall + Halloween
     </a>
 
-    <a
-      class="menu-collection-link seasonal-child"
-      href="/collections/christmas"
-    >
+    <a href="/collections/christmas">
       Christmas
     </a>
 
@@ -108,24 +102,39 @@
   }
 
   .seasonal-toggle {
-    border: 0;
-    cursor: pointer;
-    font-family: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    text-align: left;
-    display: flex !important;
+    display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
+
+    padding: 13px 16px;
+    margin: 6px 0;
+
+    background: #a8b48c;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 14px;
+
+    font-family: "Quicksand", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.6;
+
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
   }
 
   .seasonal-chevron {
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    line-height: 1;
     transition: transform 0.2s ease;
   }
 
   .seasonal-links {
     display: none;
-    padding-top: 10px;
     padding-left: 14px;
   }
 
@@ -137,8 +146,29 @@
     transform: rotate(180deg);
   }
 
-  .seasonal-child {
-    margin-bottom: 10px;
+  .seasonal-links a {
+    display: block;
+
+    padding: 13px 16px;
+    margin: 6px 0;
+
+    background: #dfe5d2;
+    color: #4f5742;
+
+    border: none;
+    border-radius: 14px;
+
+    font-family: "Quicksand", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.6;
+
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  .seasonal-links a:hover {
+    opacity: 0.9;
   }
 </style>
 
