@@ -292,20 +292,116 @@
 
 
 <script>
-  function changeLSSQuantity(button, amount) {
-    const wrapper = button.closest('.lss-quantity');
-    const input = wrapper.querySelector('.lss-qty-input');
+(function () {
+  const form = document.querySelector('.lss-cart-form');
+  if (!form) return;
 
-    let quantity = parseInt(input.value, 10) || 0;
+  const inputs = Array.from(
+    form.querySelectorAll('.lss-qty-input')
+  );
 
-    quantity += amount;
+  const stock = [
+    {% for item in cart.items %}
+      {
+        variantId: {{ item.variant_id | append: '' | json }},
+        limited: {% if item.variant.inventory_management != blank and item.variant.inventory_policy != 'continue' %}true{% else %}false{% endif %},
+        available: {{ item.variant.inventory_quantity | at_least: 0 | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
 
-    if (quantity < 0) {
-      quantity = 0;
-    }
+  const messages = inputs.map(function (input) {
+    input.step = '1';
 
-    input.value = quantity;
+    const message = document.createElement('p');
+    message.setAttribute('aria-live', 'polite');
+    message.style.cssText =
+      'font-size:12px;color:#96827c;margin:8px 0 0;';
+
+    input.closest('.lss-cart-actions').after(message);
+    return message;
+  });
+
+  function quantity(input) {
+    return Math.max(0, Math.floor(Number(input.value) || 0));
   }
+
+  function maximumFor(index) {
+    const item = stock[index];
+    if (!item.limited) return Infinity;
+
+    // Different customizations can create multiple rows
+    // using the same size's stock.
+    const otherRows = inputs.reduce(function (total, input, i) {
+      if (i !== index && stock[i].variantId === item.variantId) {
+        return total + quantity(input);
+      }
+      return total;
+    }, 0);
+
+    return Math.max(0, item.available - otherRows);
+  }
+
+  function updateControls() {
+    inputs.forEach(function (input, index) {
+      const maximum = maximumFor(index);
+      const value = quantity(input);
+      const wrapper = input.closest('.lss-quantity');
+      const buttons = wrapper.querySelectorAll('.lss-qty-button');
+
+      if (Number.isFinite(maximum)) {
+        input.max = String(maximum);
+      } else {
+        input.removeAttribute('max');
+      }
+
+      buttons[0].disabled = value <= 0;
+      buttons[1].disabled = value >= maximum;
+
+      buttons.forEach(function (button) {
+        button.style.opacity = button.disabled ? '0.35' : '1';
+        button.style.cursor = button.disabled
+          ? 'not-allowed'
+          : 'pointer';
+      });
+
+      messages[index].textContent =
+        stock[index].limited && value >= maximum
+          ? 'Stock limit reached for this option.'
+          : '';
+    });
+  }
+
+  function clampInput(input) {
+    const index = inputs.indexOf(input);
+    input.value = Math.min(quantity(input), maximumFor(index));
+    updateControls();
+  }
+
+  // Used by the existing plus and minus buttons.
+  window.changeLSSQuantity = function (button, amount) {
+    const input = button.closest('.lss-quantity')
+      .querySelector('.lss-qty-input');
+
+    input.value = Math.max(0, quantity(input) + amount);
+    clampInput(input);
+  };
+
+  inputs.forEach(function (input) {
+    input.addEventListener('input', function () {
+      clampInput(input);
+    });
+
+    input.addEventListener('change', function () {
+      clampInput(input);
+    });
+  });
+
+  // Apply limits to quantities already displayed.
+  inputs.forEach(function (input) {
+    clampInput(input);
+  });
+})();
 </script>
 
 
